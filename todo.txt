@@ -1,0 +1,11 @@
+- Implement search with the API calls to TMDB
+    - Once the relevant data is retrieved as JSON, parse it and make it into an array with the structure of watchlist
+- Add Firebase authentication for user login
+- Add database that includes:
+    - userID table
+    - watchlist table of userID and movie on that user's watchlist
+    - watched table of userID and movie on that user's watched
+    - maybe a table that stores media that has been added to a list for quicker application to main-list
+        - otherwise when you make the watchlist/watched list you have to call the API for every media in that list to get the details
+- Make the watchlist and watched list pull from the database
+- Implement the filter sidebar functionality
