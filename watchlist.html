@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Watchlist</title>
+    <link rel="stylesheet" href="styles/general.css" />
+    <link rel="stylesheet" href="styles/main-container.css" />
+    <link rel="stylesheet" href="styles/header.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Header content -->
+    <div class="header">
+      <div class="left-section">
+        <div class="watchlist-tab">Watchlist</div>
+        <div class="divider-line">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</div>
+        <div class="watched-tab">Watched</div>
+      </div>
+
+      <div class="middle-section">
+        <img
+          class="search-icon"
+          src="images/search.svg"
+          alt="search icon here"
+        />
+        <input
+          class="search-bar"
+          type="text"
+          placeholder="Search for a movie or show"
+        />
+      </div>
+
+      <div class="right-section">
+        <div class="profile-icon">KB</div>
+      </div>
+    </div>
+
+    <!-- Main container content -->
+    <div class="main-container">
+      <!-- Sidebar content -->
+      <div class="sidebar">
+        <div class="filter">
+          <h2>Filter</h2>
+          <hr class="line" />
+          <div class="checkbox">
+            <input type="checkbox" id="movies" name="movies" />
+            <label for="movies">Movies</label>
+          </div>
+          <div class="checkbox">
+            <input type="checkbox" id="tvshows" name="tvshows" />
+            <label for="tvshows">TV Shows</label>
+          </div>
+          <div class="checkbox">
+            <input type="checkbox" id="genre" name="genre" />
+            <label for="genre">Genre</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <div class="main-content">
+        <div class="watchlist">
+          <h1>Watchlist</h1>
+          <div class="item-count">X Items</div>
+          <ul class="main-list">
+            <!-- <li class="media-card">
+              <div class="thumbnail">
+                <img src="path-to-thumbnail.jpg" alt="Thumbnail here" />
+              </div>
+              <div class="card-content">
+                <div class="title-and-dots-row">
+                  <h3 class="title">Breaking Bad</h3>
+                  <img
+                    class="three-dots-icon"
+                    src="images/three-dots.svg"
+                    alt="@@@"
+                  />
+                </div>
+
+                <div class="type-genre-year">
+                  <p class="media-type">TV Show (5 seasons)</p>
+                  <p class="genre">&nbsp;| Crime, Drama, Thriller |&nbsp;</p>
+                  <p class="year">2008</p>
+                </div>
+
+                <p class="media-description">
+                  A chemistry teacher diagnosed with inoperable lung cancer
+                  turns to manufacturing and selling methamphetamine with a
+                  former student in order to secure his family's future.
+                </p>
+              </div>
+            </li> -->
+          </ul>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

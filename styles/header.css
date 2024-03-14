@@ -1,0 +1,94 @@
+.header{
+    height: 55px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    z-index: 1;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 20px;
+}
+
+.left-section{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    margin-left: 15px;
+    font-size: 18px;
+}
+
+.watchlist-tab{
+    flex: 1;
+    cursor: pointer;
+    background-color: #3A3F74;
+    border-radius: 10px;
+    padding-left: 17px;
+    padding-right: 17px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.divider-line{
+    flex: 1;
+}
+
+.watched-tab{
+    flex: 1;
+    cursor: pointer;
+}
+
+.middle-section{
+    display: flex;
+    align-items: center;
+    flex: 1;
+    max-width: 450px;
+}
+
+.search-icon{
+    margin-right: 15px;
+    height: 30px;
+    width: 30px;
+    filter: invert(100%);
+}
+
+.search-bar{
+    flex: 1;
+    height: 36px;
+    font-size: 18px;
+    width: 0;
+    padding-left: 10px;
+    background-color: #232323;
+    color: white;
+    outline: none;
+    border: none;
+    font-family: 'Archivo Black';
+}
+
+.search-bar::placeholder{
+    color: white;
+    font-family: 'Archivo Black';
+}
+
+
+.right-section{
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    margin-right: 15px;
+}
+
+.profile-icon{
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    height: 54px;
+    width: 54px;
+    border-radius: 50%;
+    border-style: solid;
+}
