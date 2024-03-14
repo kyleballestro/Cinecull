@@ -18,9 +18,9 @@
     <!-- Header content -->
     <div class="header">
       <div class="left-section">
-        <div class="watchlist-tab">Watchlist</div>
+        <div id="watchlist-tab" class="watchlist-tab">Watchlist</div>
         <div class="divider-line">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</div>
-        <div class="watched-tab">Watched</div>
+        <div id="watched-tab" class="watched-tab">Watched</div>
       </div>
 
       <div class="middle-section">
@@ -30,6 +30,7 @@
           alt="search icon here"
         />
         <input
+          id="search-bar"
           class="search-bar"
           type="text"
           placeholder="Search for a movie or show"
@@ -66,7 +67,7 @@
       <!-- Main content -->
       <div class="main-content">
         <div class="watchlist">
-          <h1>Watchlist</h1>
+          <h1 id="list-title">Watchlist</h1>
           <div class="item-count">X Items</div>
           <ul class="main-list">
             <!-- <li class="media-card">
