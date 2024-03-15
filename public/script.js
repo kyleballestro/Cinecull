@@ -40,7 +40,15 @@ var watched = [
         genre: "Sci-Fi, Mystery",
         year: "2002",
         description: "Violence and mayhem ensue after a hunter stumbles upon the aftermath of a drug deal gone wrong and over two million dollars in cash near the Rio Grande."
-        }
+    },
+    {
+        thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
+        title: "Interstellar",
+        mediaType: "Movie (2h 49m)",
+        genre: "Sci-Fi, Adventure, Drama",
+        year: "2014",
+        description: 'The adventures of a group of explorers who make use of a newly discovered wormhole to surpass the limitations on human space travel and conquer the vast distances involved in an interstellar voyage.'
+    }
     ];
 
 // var watchlist = [];
@@ -114,10 +122,10 @@ searchBar.addEventListener('keydown', function(event) {
             for (let i = 0; i < data.results.length; i++){
                 let media = {
                     thumbnail: data.results[i].poster_path, 
-                    title: data.results[i].title, 
+                    title: data.results[i].title || data.results[i].name, 
                     mediaType: '', 
                     genre: '', 
-                    year: data.results[i].release_date.substring(0, 4), 
+                    year: data.results[i].release_date || data.results[i].first_air_date, 
                     description: data.results[i].overview
                 };
                 if (media.thumbnail === null){
@@ -126,6 +134,7 @@ searchBar.addEventListener('keydown', function(event) {
                 else{
                     media.thumbnail = 'https://image.tmdb.org/t/p/w500' + media.thumbnail;
                 }
+                media.year = media.year.substring(0, 4);
                 searchList.push(media);
             }
             // Populate mainList using searchList

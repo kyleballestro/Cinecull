@@ -1,6 +1,4 @@
-!!! HIDE API KEY AND BEARER TOKEN
-- Make it search for TV and movies
-- Handle null thumbnails
+- Have it correctly fill genre and media type upon search
 - Implement search with the API calls to TMDB
     - Once the relevant data is retrieved as JSON, parse it and make it into an array with the structure of watchlist
     - Implement the three dot functionality to add to lists

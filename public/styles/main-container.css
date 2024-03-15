@@ -8,13 +8,14 @@
 /* Sidebar ----------------------------------------------------------------------- */
 
 .sidebar {
-    width: 18%;
-    height: 300px;
+    width: 220px;
+    height: 100%;
     padding: 40px;
     background-color: #363636;
     border-radius: 20px;
     margin-left: 20px;
-    margin-right: 10px;
+    position: sticky;
+    top: 20px;
 }
 
 .checkbox{
@@ -26,13 +27,11 @@
 /* Main content ------------------------------------------------------------------ */
 
 .main-content {
-    width: 82%;
+    flex: 1;
     background-color: #3A3F74;
     padding: 60px 60px 30px 60px;
     border-radius: 20px;
-    margin-left: 10px;
-    margin-right: 20px;
-    margin-bottom: 20px;
+    margin: 0px 20px 20px 20px;
 }
 
 .item-count{

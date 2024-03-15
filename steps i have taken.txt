@@ -3,5 +3,8 @@
 3. Map out (on whiteboard) how I want the data to travel from start to finish, making notes of things I would need to add/change
 4. Implement test data to make sure that I can populate the main list correctly
 5. Implement switching to different tabs and populating main list using the appropriate data
-5. Implement minor UI changes that are necessary upon changing tabs
-6. Acquire a TMDB API key, implement the search function using that API, parse the results into searchList, and display the search results.
+6. Implement minor UI changes that are necessary upon changing tabs
+7. Set up server side code using an Express server with Node.js.
+8. Acquire a TMDB API key, implement the search function using that API (server side), 
+   parse the results into searchList, and display the search results.
+9. 
