@@ -4,3 +4,4 @@
 4. Implement test data to make sure that I can populate the main list correctly
 5. Implement switching to different tabs and populating main list using the appropriate data
 5. Implement minor UI changes that are necessary upon changing tabs
+6. Acquire a TMDB API key, implement the search function using that API, parse the results into searchList, and display the search results.
