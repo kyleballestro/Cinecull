@@ -1,26 +1,40 @@
-- Have it correctly fill genre and media type upon search
-- Implement search with the API calls to TMDB
-    - Once the relevant data is retrieved as JSON, parse it and make it into an array with the structure of watchlist
-    - Implement the three dot functionality to add to lists
+Firebase Authentication
+----------------------------------------------
 - Add Firebase authentication for user login
+
+
+Database for Watchlist Table and Watched Table
+-----------------------------------------------
 - Add database that includes:
-    - userID table
     - watchlist table of userID and movie details on that user's watchlist
     - watched table of userID and movie details on that user's watched
-- Make the watchlist and watched list pull from the database
-- Implement the filter sidebar functionality
-- Separate into multiple JavaScript files if necessary to increase readability and organization
-- Put TMDB logo and this at the bottom of the page: This application uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB.
-    - Logos for attribution: https://www.themoviedb.org/about/logos-attribution
+    ? - userID table
 - Refresh cached data:
     1. Timestamp Your Cached Data
     When you cache data from TMDB, also store the timestamp of when the data was fetched. This allows you to determine how old the cached data is.
-
     2. Check Age Before Using Cached Data
     Before using any piece of cached data, compare its timestamp to the current time. If the data is older than 6 months, it should be refreshed.
-
     3. Refresh Outdated Cached Data
     If the cached data is older than 6 months, make a new request to the TMDB API to fetch the latest information. Replace the outdated cached data with this new data, including updating the timestamp to the current time.
+
+
+TMDB API Stuff
+-----------------------------------------------
+- Have it correctly fill genre upon search
+- Runtime and seasons?
+
+
+General Additions
+-----------------------------------------------
+- Implement the genre filter
+- Implement the three dot functionality to add to lists
+
+
+Misc.
+-----------------------------------------------
+- Separate into multiple JavaScript files if necessary to increase readability and organization
+- Put TMDB logo and this at the bottom of the page: This application uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB.
+    - Logos for attribution: https://www.themoviedb.org/about/logos-attribution
 - Choose a URL
     - flickpick.org is available
     - pickaflick.org

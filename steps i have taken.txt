@@ -7,4 +7,4 @@
 7. Set up server side code using an Express server with Node.js.
 8. Acquire a TMDB API key, implement the search function using that API (server side), 
    parse the results into searchList, and display the search results.
-9. 
+9. Implement the filter functionality for Movie and TV Shows filters. Added "Apply" and "Clear" filter buttons.

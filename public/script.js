@@ -2,6 +2,8 @@ var watchlistTab = document.getElementById('watchlist-tab');
 var watchedTab = document.getElementById('watched-tab');
 var searchBar = document.getElementById('search-bar');
 var listTitle = document.getElementById('list-title');
+var applyFilter = document.getElementById('apply-filter');
+var clearFilter = document.getElementById('clear-filter');
 var curTab = 'watchlistTab';
 
 // Object to hold details of each media (will later be populated by TMDB API calls)
@@ -24,7 +26,7 @@ var watchlist = [
       }
     ];
 
-var watched = [
+var watchedList = [
     {
         thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/pCGyPVrI9Fzw6rE1Pvi4BIXF6ET.jpg",
         title: "Ozark",
@@ -52,12 +54,14 @@ var watched = [
     ];
 
 // var watchlist = [];
-// var watched = [];
+// var watchedList = [];
 var searchList = [];
+var mainList = [];
 
 // Load up the watchlist first
 window.onload = function(){
     populateMediaCards(watchlist);
+    mainList = watchlist;
 }
 
 // Switch to watchlist tab
@@ -78,8 +82,9 @@ watchlistTab.addEventListener('click', function(event) {
         // Clear the watched tab background and set the watchlist tab background
         watchedTab.style.background = 'none';
         this.style.backgroundColor = '#3A3F74';
+        mainList = watchlist;
     }
-  });
+});
 
 // Switch to watchlist tab
 watchedTab.addEventListener('click', function(event) {
@@ -89,7 +94,7 @@ watchedTab.addEventListener('click', function(event) {
         list.innerHTML = '';
 
         // Populate it with the items in watched
-        populateMediaCards(watched);
+        populateMediaCards(watchedList);
 
         // Change the current tab, clear the search bar, change list title
         curTab = 'watchedTab';
@@ -99,8 +104,9 @@ watchedTab.addEventListener('click', function(event) {
         // Clear the watchlist tab background and set the watched tab background
         watchlistTab.style.background = 'none';
         this.style.backgroundColor = '#3A3F74';
+        mainList = watchedList;
     }
-  });
+});
 
 // Switch to search tab
 searchBar.addEventListener('keydown', function(event) {
@@ -121,20 +127,13 @@ searchBar.addEventListener('keydown', function(event) {
         .then(data => {
             for (let i = 0; i < data.results.length; i++){
                 let media = {
-                    thumbnail: data.results[i].poster_path, 
+                    thumbnail: data.results[i].poster_path === null ? 'images/no image available.webp' : 'https://image.tmdb.org/t/p/w500' + data.results[i].poster_path, 
                     title: data.results[i].title || data.results[i].name, 
-                    mediaType: '', 
+                    mediaType: data.results[i].title ? 'Movie' : 'TV Show', 
                     genre: '', 
-                    year: data.results[i].release_date || data.results[i].first_air_date, 
-                    description: data.results[i].overview
+                    year: (data.results[i].release_date || data.results[i].first_air_date).substring(0, 4), 
+                    description: data.results[i].overview ? data.results[i].overview : 'No description available.'
                 };
-                if (media.thumbnail === null){
-                    media.thumbnail = 'images/no image available.webp';
-                }
-                else{
-                    media.thumbnail = 'https://image.tmdb.org/t/p/w500' + media.thumbnail;
-                }
-                media.year = media.year.substring(0, 4);
                 searchList.push(media);
             }
             // Populate mainList using searchList
@@ -143,10 +142,53 @@ searchBar.addEventListener('keydown', function(event) {
         .catch(error => console.error('Error fetching data:', error));
 
         // Change the current tab, clear the backgrounds of watchlistTab and watchedTab, change list title
-        curTab = 'search';
+        curTab = 'searchTab';
         watchedTab.style.background = 'none';
         watchlistTab.style.background = 'none';
         listTitle.textContent = 'Searched: ' + this.value;
+        mainList = searchList;
+    }
+});
+
+
+// --------- Filters ---------
+// Apply Filter
+applyFilter.addEventListener('click', function(event) {
+    // Check which of the filters are checked
+    var moviesIsChecked = document.getElementById('moviesCheckbox').checked;
+    var tvIsChecked = document.getElementById('tvShowsCheckbox').checked;
+
+    // If movie and TV filters and current list size != main list size, repopulate with main list
+    if (moviesIsChecked && tvIsChecked && document.querySelector('.item-count').textContent.match(/^\d+/) != String(mainList.length)){
+        populateMediaCards(mainList);
+    }
+    else{ 
+        // Otherwise, go through main list and add the ones that meet the filters to filteredList
+        var filteredList = [];
+    
+        for (let i = 0; i < mainList.length; i++){
+            if ((moviesIsChecked && mainList[i].mediaType === 'Movie') || (tvIsChecked && mainList[i].mediaType === 'TV Show')){
+                filteredList.push(mainList[i]);
+            }
+        }
+
+        // Populate the list with filteredList
+        if (filteredList.length != mainList.length){
+            populateMediaCards(filteredList);
+        }
+    }
+});
+
+// Clear Filter
+clearFilter.addEventListener('click', function(event) {
+    // Uncheck all the filters
+    document.getElementById('moviesCheckbox').checked = false;
+    document.getElementById('tvShowsCheckbox').checked = false;
+    document.getElementById('genreCheckbox').checked = false;
+
+    // Reset to full list if the current list isn't the same size as main list
+    if (document.querySelector('.item-count').textContent.match(/^\d+/) != String(mainList.length)){
+        populateMediaCards(mainList);
     }
 });
 
@@ -186,6 +228,7 @@ function createMediaCard(cardData) {
 // Function to facilitate creating media cards and updating item count
 function populateMediaCards(selectedList) {
     const list = document.querySelector('.main-list');
+    list.innerHTML = '';
     for (let i = 0; i < selectedList.length; i++){
         const cardData = selectedList[i];
         const mediaCard = createMediaCard(cardData);
