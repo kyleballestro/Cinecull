@@ -6,12 +6,55 @@ var applyFilter = document.getElementById('apply-filter');
 var clearFilter = document.getElementById('clear-filter');
 var curTab = 'watchlistTab';
 
+var movieGenres = {
+    28: "Action",
+    12: "Adventure",
+    16: "Animation",
+    35: "Comedy",
+    80: "Crime",
+    99: "Documentary",
+    18: "Drama",
+    10751: "Family",
+    14: "Fantasy",
+    36: "History",
+    27: "Horror",
+    10402: "Music",
+    9648: "Mystery",
+    10749: "Romance",
+    878: "Science Fiction",
+    10770: "TV Movie",
+    53: "Thriller",
+    10752: "War",
+    37: "Western"
+};
+
+var tvGenres = {
+    10759: "Action & Adventure",
+    16: "Animation",
+    35: "Comedy",
+    80: "Crime",
+    99: "Documentary",
+    18: "Drama",
+    10751: "Family",
+    10762: "Kids",
+    9648: "Mystery",
+    10763: "News",
+    10764: "Reality",
+    10765: "Sci-Fi & Fantasy",
+    10766: "Soap",
+    10767: "Talk",
+    10768: "War & Politics",
+    37: "Western"
+};
+
+var mainListGenres = [];
+
 // Object to hold details of each media (will later be populated by TMDB API calls)
 var watchlist = [
     {
       thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg",
       title: "Breaking Bad",
-      mediaType: "TV Show (5 seasons)",
+      mediaType: "TV Show",
       genre: "Crime, Drama, Thriller",
       year: "2008",
       description: "A chemistry teacher diagnosed with inoperable lung cancer turns to manufacturing and selling methamphetamine with a former student in order to secure his family's future."
@@ -19,7 +62,7 @@ var watchlist = [
     {
         thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg",
         title: "Blade Runner 2049",
-        mediaType: "Movie (2h 39m)",
+        mediaType: "Movie",
         genre: "Sci-Fi, Mystery",
         year: "2017",
         description: "Some robot guy thinks he's special and he's the first born robot or something but he's really not."
@@ -30,7 +73,7 @@ var watchedList = [
     {
         thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/pCGyPVrI9Fzw6rE1Pvi4BIXF6ET.jpg",
         title: "Ozark",
-        mediaType: "TV Show (4 Seasons)",
+        mediaType: "TV Show",
         genre: "Crime, Drama, Thriller",
         year: "22017",
         description: "A financial advisor drags his family from Chicago to the Missouri Ozarks, where he must launder money to appease a drug boss."
@@ -38,7 +81,7 @@ var watchedList = [
     {
         thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/bj1v6YKF8yHqA489VFfnQvOJpnc.jpg",
         title: "No Country For Old Men",
-        mediaType: "Movie (2h 2m)",
+        mediaType: "Movie",
         genre: "Sci-Fi, Mystery",
         year: "2002",
         description: "Violence and mayhem ensue after a hunter stumbles upon the aftermath of a drug deal gone wrong and over two million dollars in cash near the Rio Grande."
@@ -46,7 +89,7 @@ var watchedList = [
     {
         thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
         title: "Interstellar",
-        mediaType: "Movie (2h 49m)",
+        mediaType: "Movie",
         genre: "Sci-Fi, Adventure, Drama",
         year: "2014",
         description: 'The adventures of a group of explorers who make use of a newly discovered wormhole to surpass the limitations on human space travel and conquer the vast distances involved in an interstellar voyage.'
@@ -126,15 +169,22 @@ searchBar.addEventListener('keydown', function(event) {
         .then(response => response.json())
         .then(data => {
             for (let i = 0; i < data.results.length; i++){
-                let media = {
-                    thumbnail: data.results[i].poster_path === null ? 'images/no image available.webp' : 'https://image.tmdb.org/t/p/w500' + data.results[i].poster_path, 
-                    title: data.results[i].title || data.results[i].name, 
-                    mediaType: data.results[i].title ? 'Movie' : 'TV Show', 
-                    genre: '', 
-                    year: (data.results[i].release_date || data.results[i].first_air_date).substring(0, 4), 
-                    description: data.results[i].overview ? data.results[i].overview : 'No description available.'
-                };
-                searchList.push(media);
+                if (data.results[i].media_type !== 'person'){
+                    let media = {
+                        thumbnail: data.results[i].poster_path === null ? 'images/no image available.webp' : 'https://image.tmdb.org/t/p/w500' + data.results[i].poster_path, 
+                        title: data.results[i].title || data.results[i].name, 
+                        mediaType: data.results[i].title ? 'Movie' : 'TV Show', 
+                        genre: '', 
+                        year: (data.results[i].release_date || data.results[i].first_air_date), 
+                        description: data.results[i].overview ? data.results[i].overview : 'No description available.'
+                    };
+                    for (let j = 0; j < data.results[i].genre_ids.length; j++){
+                        var theGenre = media.mediaType === 'Movie' ? movieGenres[data.results[i].genre_ids[j]]: tvGenres[data.results[i].genre_ids[j]];
+                        media.genre += j === data.results[i].genre_ids.length - 1 ? theGenre: theGenre + ', ';
+                    }
+                    media.year = media.year.substring(0, 4);
+                    searchList.push(media);   
+                }
             }
             // Populate mainList using searchList
             populateMediaCards(searchList);
@@ -162,7 +212,7 @@ applyFilter.addEventListener('click', function(event) {
     if (moviesIsChecked && tvIsChecked && document.querySelector('.item-count').textContent.match(/^\d+/) != String(mainList.length)){
         populateMediaCards(mainList);
     }
-    else{ 
+    else if (moviesIsChecked || tvIsChecked){ 
         // Otherwise, go through main list and add the ones that meet the filters to filteredList
         var filteredList = [];
     
@@ -191,6 +241,20 @@ clearFilter.addEventListener('click', function(event) {
         populateMediaCards(mainList);
     }
 });
+
+
+// Function to populate the mainListGenres array given the current mainList
+function populateMainListGenres(selectedList){
+    mainListGenres = [];
+    for (let i = 0; i < selectedList.length; i++){
+        var mediaGenres = selectedList[i].genre.split(', ');
+        for (let j = 0; j < mediaGenres.length; j++){
+            if (!mainListGenres.includes(mediaGenres[j]) && mediaGenres[j] != ''){
+                mainListGenres.push(mediaGenres[j]);
+            }
+        }
+    }
+}
 
 
 // --------- Functions to create the lists of media cards ---------
@@ -227,6 +291,7 @@ function createMediaCard(cardData) {
 
 // Function to facilitate creating media cards and updating item count
 function populateMediaCards(selectedList) {
+    populateMainListGenres(selectedList);
     const list = document.querySelector('.main-list');
     list.innerHTML = '';
     for (let i = 0; i < selectedList.length; i++){

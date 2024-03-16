@@ -27,7 +27,11 @@ TMDB API Stuff
 General Additions
 -----------------------------------------------
 - Implement the genre filter
+- Add a "See More" button after filtering to recall the API with that title and media type to see 20 options
+    - Only do it if the size of the mainList < 20
 - Implement the three dot functionality to add to lists
+- Maybe a "See More Details" under the three dots of an item to see runtime, where it's streaming, maybe something else. This would be done with another API call 
+  to its ID specifically.
 
 
 Misc.
