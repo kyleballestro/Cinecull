@@ -3,8 +3,12 @@ var watchedTab = document.getElementById('watched-tab');
 var searchBar = document.getElementById('search-bar');
 var listTitle = document.getElementById('list-title');
 var applyFilter = document.getElementById('apply-filter');
-var clearFilter = document.getElementById('clear-filter');
+var resetFilter = document.getElementById('reset-filter');
+var plusMinus = document.getElementById('plus-minus');
+var genreCheckboxes = document.getElementById('genre-checkboxes');
+var genreText = document.getElementById('genre-text');
 var curTab = 'watchlistTab';
+var fromApplyFilter = false;
 
 var movieGenres = {
     28: "Action",
@@ -21,7 +25,7 @@ var movieGenres = {
     10402: "Music",
     9648: "Mystery",
     10749: "Romance",
-    878: "Science Fiction",
+    878: "Sci-Fi",
     10770: "TV Movie",
     53: "Thriller",
     10752: "War",
@@ -29,7 +33,7 @@ var movieGenres = {
 };
 
 var tvGenres = {
-    10759: "Action & Adventure",
+    10759: "Action",
     16: "Animation",
     35: "Comedy",
     80: "Crime",
@@ -40,7 +44,7 @@ var tvGenres = {
     9648: "Mystery",
     10763: "News",
     10764: "Reality",
-    10765: "Sci-Fi & Fantasy",
+    10765: "Sci-Fi",
     10766: "Soap",
     10767: "Talk",
     10768: "War & Politics",
@@ -65,7 +69,7 @@ var watchlist = [
         mediaType: "Movie",
         genre: "Sci-Fi, Mystery",
         year: "2017",
-        description: "Some robot guy thinks he's special and he's the first born robot or something but he's really not."
+        description: "Thirty years after the events of the first film, a new blade runner, LAPD Officer K, unearths a long-buried secret that has the potential to plunge what's left of society into chaos. K's discovery leads him on a quest to find Rick Deckard, a former LAPD blade runner who has been missing for 30 years."
       }
     ];
 
@@ -105,6 +109,7 @@ var mainList = [];
 window.onload = function(){
     populateMediaCards(watchlist);
     mainList = watchlist;
+    genreCheckboxes.style.display = 'none';
 }
 
 // Switch to watchlist tab
@@ -204,37 +209,67 @@ searchBar.addEventListener('keydown', function(event) {
 // --------- Filters ---------
 // Apply Filter
 applyFilter.addEventListener('click', function(event) {
+    fromApplyFilter = true;
+    var checkedTypes = [];
     // Check which of the filters are checked
     var moviesIsChecked = document.getElementById('moviesCheckbox').checked;
     var tvIsChecked = document.getElementById('tvShowsCheckbox').checked;
-
-    // If movie and TV filters and current list size != main list size, repopulate with main list
-    if (moviesIsChecked && tvIsChecked && document.querySelector('.item-count').textContent.match(/^\d+/) != String(mainList.length)){
-        populateMediaCards(mainList);
+    // If neither is checked, set them to true so that it searches for both tv and movies
+    if (!moviesIsChecked && !tvIsChecked) {
+        checkedTypes.push('Movie', 'TV Show');
+    } 
+    else {
+        if (moviesIsChecked) checkedTypes.push('Movie');
+        if (tvIsChecked) checkedTypes.push('TV Show');
     }
-    else if (moviesIsChecked || tvIsChecked){ 
-        // Otherwise, go through main list and add the ones that meet the filters to filteredList
-        var filteredList = [];
-    
-        for (let i = 0; i < mainList.length; i++){
-            if ((moviesIsChecked && mainList[i].mediaType === 'Movie') || (tvIsChecked && mainList[i].mediaType === 'TV Show')){
-                filteredList.push(mainList[i]);
-            }
-        }
 
-        // Populate the list with filteredList
-        if (filteredList.length != mainList.length){
-            populateMediaCards(filteredList);
+    // Get the checked genres
+    var checkedGenres = [];
+    const checkboxes = document.querySelectorAll('#genre-checkboxes .checkbox');
+
+    // Loop through each checkbox div
+    checkboxes.forEach(checkbox => {
+        const input = checkbox.querySelector('input[type="checkbox"]');
+
+        // If the checkbox is checked, get the label's text
+        if (input.checked) {
+            const label = checkbox.querySelector('label');
+            checkedGenres.push(label.textContent.substring(1, label.textContent.length));
+        }
+    });
+
+
+    // New filtering with genres
+    filteredList = [];
+    for (let i = 0; i < mainList.length; i++){
+        var curGenres = mainList[i].genre.split(', ');
+        var curType = mainList[i].mediaType;
+        if ((checkedGenres.length === 0 || checkedGenres.some(genre => curGenres.includes(genre))) && checkedTypes.includes(curType)){
+            filteredList.push(mainList[i]);
         }
     }
+    // Populate the list with filteredList
+    populateMediaCards(filteredList);
 });
 
-// Clear Filter
-clearFilter.addEventListener('click', function(event) {
+// Reset Filter
+resetFilter.addEventListener('click', function(event) {
     // Uncheck all the filters
     document.getElementById('moviesCheckbox').checked = false;
     document.getElementById('tvShowsCheckbox').checked = false;
-    document.getElementById('genreCheckbox').checked = false;
+    
+    // Uncheck any of the checked genres
+    const checkboxes = document.querySelectorAll('#genre-checkboxes .checkbox');
+
+    // Loop through each checkbox div
+    checkboxes.forEach(checkbox => {
+        const input = checkbox.querySelector('input[type="checkbox"]');
+
+        // If the checkbox is checked, get the label's text
+        if (input.checked) {
+            input.checked = false;
+        }
+    });
 
     // Reset to full list if the current list isn't the same size as main list
     if (document.querySelector('.item-count').textContent.match(/^\d+/) != String(mainList.length)){
@@ -256,6 +291,56 @@ function populateMainListGenres(selectedList){
     }
 }
 
+function populateGenreCheckboxes(){
+    genreCheckboxes.innerHTML = '';
+    for (let i = 0; i < mainListGenres.length; i++){
+        var theGenre = mainListGenres[i];
+
+        // Create the container that holds the checkbox and the label
+        const genreCheckbox = document.createElement("div");
+        genreCheckbox.className = 'checkbox genre';
+        
+        // Create the checkbox
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = theGenre;
+        checkbox.name = theGenre;
+        checkbox.className = 'actual-checkbox';
+        
+        // Create a label and associate it with the checkbox
+        const label = document.createElement("label");
+        label.htmlFor = theGenre;
+        label.textContent = ' ' + theGenre;
+        label.className = 'checkbox-label';
+        // label.appendChild(document.createTextNode(theGenre));
+        
+        // Append the checkbox and label to the list item
+        genreCheckbox.appendChild(checkbox);
+        genreCheckbox.appendChild(label);
+        
+        // Append the list item to the unordered list
+        genreCheckboxes.appendChild(genreCheckbox);
+    }
+}
+
+genreText.addEventListener('click', function(event) {
+    displayGenreList();
+});
+
+plusMinus.addEventListener('click', function(event) {
+    displayGenreList();
+});
+
+function displayGenreList(){
+    if (plusMinus.src.includes('images/plus.svg')) {
+        plusMinus.src = 'images/minus.svg';
+        genreCheckboxes.style.display = 'block';
+    } 
+    else {
+        plusMinus.src = 'images/plus.svg';
+        genreCheckboxes.style.display = 'none';
+    }
+}
 
 // --------- Functions to create the lists of media cards ---------
 // Function to create media cards for each media in the the dataset
@@ -292,6 +377,10 @@ function createMediaCard(cardData) {
 // Function to facilitate creating media cards and updating item count
 function populateMediaCards(selectedList) {
     populateMainListGenres(selectedList);
+    if (fromApplyFilter === false){
+        populateGenreCheckboxes();
+    }
+    fromApplyFilter = false;
     const list = document.querySelector('.main-list');
     list.innerHTML = '';
     for (let i = 0; i < selectedList.length; i++){

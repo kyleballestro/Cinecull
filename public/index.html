@@ -49,20 +49,36 @@
         <h2>Filter</h2>
         <hr class="filter-line" />
         <div class="checkbox">
-          <input type="checkbox" id="moviesCheckbox" name="moviesCheckbox" />
-          <label for="movies">Movies</label>
+          <input
+            class="actual-checkbox"
+            type="checkbox"
+            id="moviesCheckbox"
+            name="moviesCheckbox"
+          />
+          <label class="checkbox-label" for="moviesCheckbox">Movies</label>
         </div>
         <div class="checkbox">
-          <input type="checkbox" id="tvShowsCheckbox" name="tvShowsCheckbox" />
-          <label for="tvshows">TV Shows</label>
+          <input
+            class="actual-checkbox"
+            type="checkbox"
+            id="tvShowsCheckbox"
+            name="tvShowsCheckbox"
+          />
+          <label class="checkbox-label" for="tvShowsCheckbox">TV Shows</label>
         </div>
-        <div class="checkbox">
-          <input type="checkbox" id="genreCheckbox" name="genreCheckbox" />
-          <label for="genre">Genre</label>
+        <div class="genre-and-plusminus">
+          <div class="genre-text" id="genre-text">Genre</div>
+          <img
+            class="plus-minus"
+            id="plus-minus"
+            src="images/plus.svg"
+            alt="Plus"
+          />
         </div>
-        <div class="apply-and-clear">
+        <div class="genre-checkboxes" id="genre-checkboxes"></div>
+        <div class="apply-and-reset">
           <div id="apply-filter" class="apply-filter">Apply</div>
-          <div id="clear-filter" class="clear-filter">Clear</div>
+          <div id="reset-filter" class="reset-filter">Reset</div>
         </div>
       </div>
 
@@ -71,35 +87,7 @@
         <div class="watchlist">
           <h1 id="list-title">Watchlist</h1>
           <div class="item-count">X Items</div>
-          <ul class="main-list">
-            <!-- <li class="media-card">
-              <div class="thumbnail">
-                <img src="path-to-thumbnail.jpg" alt="Thumbnail here" />
-              </div>
-              <div class="card-content">
-                <div class="title-and-dots-row">
-                  <h3 class="title">Breaking Bad</h3>
-                  <img
-                    class="three-dots-icon"
-                    src="images/three-dots.svg"
-                    alt="@@@"
-                  />
-                </div>
-
-                <div class="type-genre-year">
-                  <p class="media-type">TV Show (5 seasons)</p>
-                  <p class="genre">&nbsp;| Crime, Drama, Thriller |&nbsp;</p>
-                  <p class="year">2008</p>
-                </div>
-
-                <p class="media-description">
-                  A chemistry teacher diagnosed with inoperable lung cancer
-                  turns to manufacturing and selling methamphetamine with a
-                  former student in order to secure his family's future.
-                </p>
-              </div>
-            </li> -->
-          </ul>
+          <ul class="main-list"></ul>
         </div>
       </div>
     </div>
