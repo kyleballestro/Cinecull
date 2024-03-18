@@ -72,22 +72,25 @@
   margin-top: 20px;
 }
 
-.apply-filter {
+.filter-button {
   flex: 1;
   cursor: pointer;
   background-color: #3a3f74;
-  padding: 10px 20px 10px 20px;
+  transition: background-color 0.2s ease;
+  padding: 10px 20px;
   border-radius: 10px;
+}
+
+.apply-filter {
   margin-right: 15px;
 }
 
 .reset-filter {
-  flex: 1;
-  cursor: pointer;
-  background-color: #3a3f74;
-  padding: 10px 20px 10px 20px;
-  border-radius: 10px;
   margin-left: 15px;
+}
+
+.filter-button:hover {
+  background-color: #4e527d;
 }
 
 /* Main content ------------------------------------------------------------------ */
@@ -133,6 +136,8 @@
 }
 
 .card-content {
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
   margin-left: 10px;
 }
@@ -170,6 +175,36 @@
 .media-description {
   margin: 0;
   max-width: 900px;
+}
+
+.content-options {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;
+  width: 175px;
+  background-color: #4e527d;
+  color: white;
+  border-radius: 10px;
+  padding: 20px 15px 20px 15px;
+  margin-top: 40px;
+  position: absolute;
+  z-index: 1;
+  /* display: flex; */
+}
+
+.content-option {
+  cursor: pointer;
+}
+
+.options-line {
+  flex: 1;
+  width: 150px;
+  height: 0.25px;
+  background-color: white;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 ul.main-list li {
