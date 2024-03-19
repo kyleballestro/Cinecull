@@ -79,10 +79,9 @@ searchBar.addEventListener('keydown', function(event) {
         .then(data => {
             for (let i = 0; i < data.results.length; i++){
                 if (data.results[i].media_type !== 'person'){
-                    console.log(data.results[i].id);
                     let media = {
                         mediaID: data.results[i].id,
-                        thumbnail: data.results[i].poster_path === null ? 'images/no image available.webp' : 'https://image.tmdb.org/t/p/w500' + data.results[i].poster_path, 
+                        thumbnail: data.results[i].poster_path === null ? 'images/no image available.webp' : 'https://image.tmdb.org/t/p/original' + data.results[i].poster_path, 
                         title: data.results[i].title || data.results[i].name, 
                         mediaType: data.results[i].title ? 'Movie' : 'TV Show', 
                         genre: '', 

@@ -38,6 +38,7 @@ function createMediaCard(cardData) {
             <p class="media-description">
                 ${cardData.description}
             </p>
+            <p class="where-to-watch" id="where-to-watch-${cardData.mediaID}">Here is where I will put the list of streamers</p>
             <div class="content-options" id="content-options-${cardData.mediaID}">
                 <div class="content-option" id="option-1">${option1}</div>
                 <hr class="options-line" />
@@ -61,20 +62,90 @@ function createMediaCard(cardData) {
         option.addEventListener('click', function(event) {
             switch (option.id) {
                 case 'option-1':
-                    
+                    var to = [];
+                    var from = [];
+                    if (curTab === 'watchlistTab'){
+                        to = watchedList;
+                        from = watchlist;
+                    }
+                    else if (curTab === 'watchedTab'){
+                        to = watchlist;
+                        from = watchedList;
+                    }
+                    else if (curTab === 'searchTab'){
+                        to = watchlist;
+                        from = searchList;
+                    }
+                    moveToList(to, from, cardData);
                     break;
                 case 'option-2':
-                    
+                    if (curTab === 'watchlistTab'){
+                        removeFromList(watchlist, cardData);
+                    }
+                    else if (curTab === 'watchedTab'){
+                        removeFromList(watchedList, cardData);                       
+                    }
+                    else if (curTab === 'searchTab'){
+                        moveToList(watchedList, searchList, cardData);
+                    }
                     break;
                 case 'option-3':
-                    
+                    seeStreamingOptions(cardData);
                     break;
             }
+            const contentOptions = listItem.querySelector('.content-options');
+            contentOptions.style.display = contentOptions.style.display === 'flex' ? 'none' : 'flex';
         });
     });
 
     return listItem;
 }
+
+// Move a media item to one list from another. Removes it from "from" list unless it's from search results.
+function moveToList(to, from, cardData){
+    if (!to.some(item => item.mediaID.toString() === cardData.mediaID.toString())){
+        to.push(cardData);
+    }
+    if (from !== searchList){
+        removeFromList(from, cardData);
+    }
+}
+
+// Removes the given media item from the list
+function removeFromList(list, cardData){
+    for (let i = list.length - 1; i >= 0; i--){
+        if (list[i].mediaID === cardData.mediaID){
+            list.splice(i, 1);
+            break;
+        }
+    }
+    populateMediaCards(list);
+}
+
+// TMDB API call to get the streaming options from the JustWatch database (attributed). Currently filtered to just U.S. results.
+function seeStreamingOptions(cardData){
+    fetch(`/streamingOptions?id=${cardData.mediaID.toString().toLowerCase()}&type=${cardData.mediaType.toString().toLowerCase()}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            let whereAndID = 'where-to-watch-' + cardData.mediaID.toString();
+            const whereToWatch = document.getElementById(whereAndID);
+            if (Array.isArray(data.flatrate)) {
+                whereToWatch.textContent = 'Available on: ' + data.flatrate.map(provider => provider.provider_name.trim()).join(', ') + ". (Source: JustWatch)";
+            } 
+            else {
+                whereToWatch.innerHTML = 'Data not available. Click <a style="color: white;" target="_blank" href="https://www.google.com/search?q=where+to+watch+' + 
+                    encodeURIComponent(cardData.title) + '">HERE</a> to search with Google.';
+            }
+            whereToWatch.style.display = 'block';
+        })
+        .catch(error => console.error('Error fetching data:', error));
+}
+
 
 // Function to facilitate creating media cards and updating item count
 function populateMediaCards(selectedList) {

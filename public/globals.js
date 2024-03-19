@@ -1,5 +1,5 @@
 var fromApplyFilter = false;
-var curTab = 'watchlistTa';
+var curTab = 'watchlistTab';
 
 var movieGenres = {
     28: "Action",
@@ -68,12 +68,12 @@ var watchlist = [
 
 var watchedList = [
     {
-        mediaID: '697403',
+        mediaID: '69740',
         thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/pCGyPVrI9Fzw6rE1Pvi4BIXF6ET.jpg",
         title: "Ozark",
         mediaType: "TV Show",
-        genre: "Crime, Drama, Thriller",
-        year: "22017",
+        genre: "Crime, Drama",
+        year: "2017",
         description: "A financial advisor drags his family from Chicago to the Missouri Ozarks, where he must launder money to appease a drug boss."
     },
     {

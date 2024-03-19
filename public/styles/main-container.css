@@ -14,7 +14,7 @@
   background-color: #363636;
   border-radius: 20px;
   margin-left: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 60px;
 }
 
 .sidebar div:last-child {
@@ -100,7 +100,7 @@
   background-color: #3a3f74;
   padding: 60px 60px 30px 60px;
   border-radius: 20px;
-  margin: 0px 20px 20px 20px;
+  margin: 0px 20px 60px 20px;
 }
 
 .item-count {
@@ -177,6 +177,10 @@
   max-width: 900px;
 }
 
+.where-to-watch {
+  display: none;
+}
+
 .content-options {
   display: none;
   flex-direction: column;
@@ -191,7 +195,6 @@
   margin-top: 40px;
   position: absolute;
   z-index: 1;
-  /* display: flex; */
 }
 
 .content-option {
@@ -213,4 +216,20 @@ ul.main-list li {
 
 ul.main-list li:last-child {
   border-bottom: none;
+}
+
+.credits {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.tmdb-logo {
+  margin-left: 30px;
+  margin-bottom: 40px;
+  height: 20px;
+}
+
+.tmdb-disclaimer {
+  margin: 0px 25px 40px 25px;
 }

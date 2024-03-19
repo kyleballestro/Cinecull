@@ -1,12 +1,11 @@
 NEXT UP 
 ----------------------------------------------
-- Handling the content options on click listeners (adding to/removing from lists, where to watch, etc)
-    - Need multiple functions like moveToWatchlist, addToWatchlist (could be a variable check in moveToWatchlist), etc
+
 
 TMDB API Stuff
 -----------------------------------------------
 - Runtime and seasons?
-
+- Add a region section to broaden streaming service results
 
 General Additions
 -----------------------------------------------
@@ -19,11 +18,10 @@ General Additions
 
 Misc.
 -----------------------------------------------
-- Put TMDB logo and this at the bottom of the page: This application uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB.
-    - Logos for attribution: https://www.themoviedb.org/about/logos-attribution
 - Choose a URL
     - flickpick.org is available
     - pickaflick.org
+- Go through and update HTML with better tags
 
 
 Firebase Authentication
