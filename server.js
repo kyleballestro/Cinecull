@@ -31,7 +31,7 @@ app.get('/streamingOptions', async (req, res) => {
     if (mediaType === 'tv show') mediaType = 'tv';
 
     try{
-        const response = await axios.get(`https://api.themoviedb.org/3/${mediaType}/${mediaID}/watch/providers?api_key=${process.env.TMDB_API_KEY}`, {
+        const response = await axios.get(`https://api.themoviedb.org/3/${encodeURIComponent(mediaType)}/${encodeURIComponent(mediaID)}/watch/providers?api_key=${process.env.TMDB_API_KEY}`, {
             headers: {
                 accept: 'application/json',
                 Authorization: `Bearer ${process.env.TMDB_BEARER_TOKEN}`
