@@ -162,14 +162,8 @@
 }
 
 .type-genre-year {
-  display: flex;
-  align-items: center;
+  margin-top: 0px;
   margin-bottom: 10px;
-}
-
-.media-details {
-  display: inline-flex;
-  margin: 0px;
 }
 
 .media-description {

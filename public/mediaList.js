@@ -18,36 +18,81 @@ function createMediaCard(cardData) {
     }
 
     // Populate the media card
-    listItem.innerHTML = `
-        <div class="thumbnail">
-            <img src="${cardData.thumbnail}" alt="Thumbnail" />
-        </div>
-        <div class="card-content">
-            <div class="title-and-dots-row">
-                <h3 class="title">${cardData.title}</h3>
-                <img
-                id="three-dots-icon-${cardData.mediaID}"
-                class="three-dots-icon"
-                src="images/three-dots.svg"
-                alt="Menu"
-                />
-            </div>
-            <div class="type-genre-year">
-                <p class="media-details">${cardData.mediaType} &nbsp;|&nbsp; ${cardData.genre} &nbsp;|&nbsp; ${cardData.year} </p>
-            </div>
-            <p class="media-description">
-                ${cardData.description}
-            </p>
-            <p class="where-to-watch" id="where-to-watch-${cardData.mediaID}">Here is where I will put the list of streamers</p>
-            <div class="content-options" id="content-options-${cardData.mediaID}">
-                <div class="content-option" id="option-1">${option1}</div>
-                <hr class="options-line" />
-                <div class="content-option" id="option-2">${option2}</div>
-                <hr class="options-line" />
-                <div class="content-option" id="option-3">${option3}</div>
-            </div>
-        </div>
-    `;
+    const thumbnailDiv = document.createElement('div');
+    thumbnailDiv.className = 'thumbnail';
+    const img = document.createElement('img');
+    img.src = cardData.thumbnail;
+    img.alt = 'Thumbnail';
+    thumbnailDiv.appendChild(img);
+
+    const cardContentDiv = document.createElement('div');
+    cardContentDiv.className = 'card-content';
+
+    const titleAndDotsRowDiv = document.createElement('div');
+    titleAndDotsRowDiv.className = 'title-and-dots-row';
+    const titleH3 = document.createElement('h3');
+    titleH3.className = 'title';
+    titleH3.textContent = cardData.title;
+    const dotsImg = document.createElement('img');
+    dotsImg.id = `three-dots-icon-${cardData.mediaID}`;
+    dotsImg.className = 'three-dots-icon';
+    dotsImg.src = 'images/three-dots.svg';
+    dotsImg.alt = 'Menu';
+    titleAndDotsRowDiv.appendChild(titleH3);
+    titleAndDotsRowDiv.appendChild(dotsImg);
+
+    const typeGenreYearP = document.createElement('p');
+    typeGenreYearP.className = 'type-genre-year';
+    typeGenreYearP.innerHTML = `${cardData.mediaType} &nbsp;|&nbsp; ${cardData.genre} &nbsp;|&nbsp; ${cardData.year}`;
+
+    const descriptionP = document.createElement('p');
+    descriptionP.className = 'media-description';
+    descriptionP.textContent = cardData.description;
+
+    const whereToWatchP = document.createElement('p');
+    whereToWatchP.className = 'where-to-watch';
+    whereToWatchP.id = `where-to-watch-${cardData.mediaID}`;
+    whereToWatchP.textContent = 'Here is where I will put the list of streamers';
+
+    const contentOptionsDiv = document.createElement('div');
+    contentOptionsDiv.className = 'content-options';
+    contentOptionsDiv.id = `content-options-${cardData.mediaID}`;
+
+    const contentOption1Div = document.createElement('div');
+    contentOption1Div.className = 'content-option';
+    contentOption1Div.id = 'option-1';
+    contentOption1Div.textContent = option1;
+
+    const optionsLine1Hr = document.createElement('hr');
+    optionsLine1Hr.className = 'options-line';
+
+    const contentOption2Div = document.createElement('div');
+    contentOption2Div.className = 'content-option';
+    contentOption2Div.id = 'option-2';
+    contentOption2Div.textContent = option2;
+
+    const optionsLine2Hr = document.createElement('hr');
+    optionsLine2Hr.className = 'options-line';
+
+    const contentOption3Div = document.createElement('div');
+    contentOption3Div.className = 'content-option';
+    contentOption3Div.id = 'option-3';
+    contentOption3Div.textContent = option3;
+
+    contentOptionsDiv.appendChild(contentOption1Div);
+    contentOptionsDiv.appendChild(optionsLine1Hr);
+    contentOptionsDiv.appendChild(contentOption2Div);
+    contentOptionsDiv.appendChild(optionsLine2Hr);
+    contentOptionsDiv.appendChild(contentOption3Div);
+
+    cardContentDiv.appendChild(titleAndDotsRowDiv);
+    cardContentDiv.appendChild(typeGenreYearP);
+    cardContentDiv.appendChild(descriptionP);
+    cardContentDiv.appendChild(whereToWatchP);
+    cardContentDiv.appendChild(contentOptionsDiv);
+
+    listItem.appendChild(thumbnailDiv);
+    listItem.appendChild(cardContentDiv);
 
     // Add the click listener for the three dots icon
     const dotsIcon = listItem.querySelector('.three-dots-icon');
