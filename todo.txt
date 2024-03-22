@@ -29,6 +29,15 @@ Firebase Authentication
 - Add Firebase authentication for user login
 
 
+Login
+----------------------------------------------
+- Authenticate using Firebase 
+- If user logged in, don't display the "Sign in to save lists text". Maybe display Cinecull logo instead.
+- Upon signing up/in, make sure to check if Firebase says email/password is no good. If it isn't, display warning text.
+- Once the user creates an account 
+- Go back to index.html once a sign up/in button is pressed and is successful
+
+
 Database for Watchlist Table and Watched Table
 -----------------------------------------------
 - Add database that includes:

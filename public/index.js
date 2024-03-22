@@ -1,11 +1,11 @@
 /*
     This file contains the functions necessary for handling the header mostly. That includes switching between tabs and searching.
 */
-
 var watchlistTab = document.getElementById('watchlist-tab');
 var watchedTab = document.getElementById('watched-tab');
 var searchBar = document.getElementById('search-bar');
 var listTitle = document.getElementById('list-title');
+var signInText = document.getElementById('sign-in-text');
 
 
 // Load up the watchlist first
@@ -114,4 +114,8 @@ searchBar.addEventListener('keydown', function(event) {
         listTitle.textContent = 'Searched: ' + this.value;
         mainList = searchList;
     }
+});
+
+signInText.addEventListener('click', function(event) {
+    window.location.href = 'sign-in.html';
 });
