@@ -91,11 +91,18 @@
   border-style: solid;
 }
 
-.sign-in-text {
+.sign-up-click {
+  display: none;
+  cursor: pointer;
+  margin-right: 25px;
+}
+
+.sign-in-click {
+  display: none;
   cursor: pointer;
 }
 
-.sign-out-text {
-  cursor: pointer;
+.sign-out-click {
   display: none;
+  cursor: pointer;
 }
