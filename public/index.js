@@ -1,8 +1,10 @@
 /*
     This file contains the functions necessary for handling the header and signing up/in.
 */
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
+// import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
+// import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
+import { auth } from './firebaseConfig.js';
+import { populateMediaCards } from './mediaList.js';
 
 var watchlistTab = document.getElementById('watchlist-tab');
 var watchedTab = document.getElementById('watched-tab');
@@ -25,19 +27,19 @@ var signInEmail = document.getElementById('sign-in-email');
 var signInPassword = document.getElementById('sign-in-password');
 var signOutClick = document.getElementById('sign-out-click');
 
-// Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyBdJKGFKN1-tc0dYEVWnpSFB_spLzTQkRs",
-    authDomain: "cinecull-e7ab6.firebaseapp.com",
-    projectId: "cinecull-e7ab6",
-    storageBucket: "cinecull-e7ab6.appspot.com",
-    messagingSenderId: "362241236949",
-    appId: "1:362241236949:web:2244cf6fcd8cad797a275c"
-};
+// // Firebase
+// const firebaseConfig = {
+//     apiKey: "AIzaSyBdJKGFKN1-tc0dYEVWnpSFB_spLzTQkRs",
+//     authDomain: "cinecull-e7ab6.firebaseapp.com",
+//     projectId: "cinecull-e7ab6",
+//     storageBucket: "cinecull-e7ab6.appspot.com",
+//     messagingSenderId: "362241236949",
+//     appId: "1:362241236949:web:2244cf6fcd8cad797a275c"
+// };
 
-initializeApp(firebaseConfig);
+// initializeApp(firebaseConfig);
 
-const auth = getAuth();
+// const auth = getAuth();
 
 
 // Load up the watchlist first
@@ -260,7 +262,7 @@ signInButton.addEventListener('click', function(event) {
 
 // Sign Out 
 signOutClick.addEventListener('click', function() {
-    auth.signOut()
+    signOut
     .then(() => {
         // Sign-out successful.
         console.log('User signed out.');
@@ -287,16 +289,18 @@ overlay.addEventListener('click', function(event) {
 auth.onAuthStateChanged((user) => {
     if (user) {
         // User is signed in.
-        console.log("User is signed in");
+        console.log("User is signed in: " + user.uid);
         signUpClick.style.display = 'none';
         signInClick.style.display = 'none';
         signOutClick.style.display = 'flex';
     } 
     else {
         // User is signed out.
-        console.log("User is signed out");
+        if (user === null){
+            console.log('user is null');
+        }
         signUpClick.style.display = 'flex';
         signInClick.style.display = 'flex';
         signOutClick.style.display = 'none';
     }
-  });
+});

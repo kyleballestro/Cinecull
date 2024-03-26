@@ -37,6 +37,8 @@ Login
 
 Database for Watchlist Table and Watched Table
 -----------------------------------------------
+!!!! When adding to database, you have to add it to media table first then either watchlist or watched table
+!!!!!!! Ensure that anytime you're doing anything with the database that curUserID != '-1'
 - Add database that includes:
     - watchlist table of userID and movie details on that user's watchlist (include media ID)
     - watched table of userID and movie details on that user's watched (include media ID)

@@ -1,6 +1,7 @@
 /*
     This file contains the functions necessary for populating the sidebar. This includes the genres and the filtering system.
 */
+import { populateMediaCards } from './mediaList.js';
 
 var applyFilter = document.getElementById('apply-filter');
 var resetFilter = document.getElementById('reset-filter');
@@ -40,7 +41,7 @@ applyFilter.addEventListener('click', function(event) {
     });
 
     // Filtering with genres
-    filteredList = [];
+    var filteredList = [];
     for (let i = 0; i < mainList.length; i++){
         var curGenres = mainList[i].genre.split(', ');
         var curType = mainList[i].mediaType;
@@ -90,6 +91,8 @@ function populateMainListGenres(selectedList){
     }
 }
 
+export { populateMainListGenres };
+
 // Function to populate the list of genres that the user can filter with checkboxes
 function populateGenreCheckboxes(){
     genreCheckboxes.innerHTML = '';
@@ -121,6 +124,8 @@ function populateGenreCheckboxes(){
         genreCheckboxes.appendChild(genreCheckbox);
     }
 }
+
+export { populateGenreCheckboxes };
 
 genreText.addEventListener('click', function(event) {
     displayGenreList();
