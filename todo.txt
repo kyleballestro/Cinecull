@@ -1,11 +1,13 @@
 NEXT UP 
 ----------------------------------------------
+Grab the user's watchlist and watched information from tables upon signing in (and up?)
 
 
 TMDB API Stuff
 -----------------------------------------------
 - Runtime and seasons?
 - Add a region section to broaden streaming service results
+
 
 General Additions
 -----------------------------------------------
@@ -27,22 +29,18 @@ Misc.
 
 Firebase Authentication
 ----------------------------------------------
-- Store the current user ID when they sign up/in
 
 
 Login
 ----------------------------------------------
-- Upon signing up/in, make sure to check if Firebase says email/password is no good. If it isn't, display warning text.
+- Upon signing up/in, make sure to check if Firebase says email/password is no good. If it isn't, display warning text instead of error dialog box.
+- Upon sign UP: add all watchlist and watched list to database for that user id
+- Upon sign OUT: take user to watchlist tab and clear watchlist and watched arrays
+- Add a "repeat password" field that makes the user reenter their password when signing up
 
 
 Database for Watchlist Table and Watched Table
 -----------------------------------------------
-!!!! When adding to database, you have to add it to media table first then either watchlist or watched table
-!!!!!!! Ensure that anytime you're doing anything with the database that curUserID != '-1'
-- Add database that includes:
-    - watchlist table of userID and movie details on that user's watchlist (include media ID)
-    - watched table of userID and movie details on that user's watched (include media ID)
-    ? - userID table
 - Refresh cached data:
     1. Timestamp Your Cached Data
     When you cache data from TMDB, also store the timestamp of when the data was fetched. This allows you to determine how old the cached data is.

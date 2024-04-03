@@ -1,14 +1,13 @@
 /*
     This file contains the functions necessary for handling the header and signing up/in.
 */
-// import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
-// import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
-import { auth } from './firebaseConfig.js';
+import { auth, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword } from './firebaseConfig.js';
 import { populateMediaCards } from './mediaList.js';
 
 var watchlistTab = document.getElementById('watchlist-tab');
 var watchedTab = document.getElementById('watched-tab');
 var searchBar = document.getElementById('search-bar');
+var profileIcon = document.getElementById('profile-icon');
 var listTitle = document.getElementById('list-title');
 var overlay = document.getElementById('overlay');
 
@@ -26,20 +25,6 @@ var signInButton = document.getElementById('sign-in-button');
 var signInEmail = document.getElementById('sign-in-email');
 var signInPassword = document.getElementById('sign-in-password');
 var signOutClick = document.getElementById('sign-out-click');
-
-// // Firebase
-// const firebaseConfig = {
-//     apiKey: "AIzaSyBdJKGFKN1-tc0dYEVWnpSFB_spLzTQkRs",
-//     authDomain: "cinecull-e7ab6.firebaseapp.com",
-//     projectId: "cinecull-e7ab6",
-//     storageBucket: "cinecull-e7ab6.appspot.com",
-//     messagingSenderId: "362241236949",
-//     appId: "1:362241236949:web:2244cf6fcd8cad797a275c"
-// };
-
-// initializeApp(firebaseConfig);
-
-// const auth = getAuth();
 
 
 // Load up the watchlist first
@@ -262,7 +247,7 @@ signInButton.addEventListener('click', function(event) {
 
 // Sign Out 
 signOutClick.addEventListener('click', function() {
-    signOut
+    signOut(auth)
     .then(() => {
         // Sign-out successful.
         console.log('User signed out.');
@@ -289,18 +274,21 @@ overlay.addEventListener('click', function(event) {
 auth.onAuthStateChanged((user) => {
     if (user) {
         // User is signed in.
-        console.log("User is signed in: " + user.uid);
+        console.log(`User is signed in: ${user.email}, ${user.uid}`);
         signUpClick.style.display = 'none';
         signInClick.style.display = 'none';
         signOutClick.style.display = 'flex';
+        profileIcon.textContent = user.email.toString().substring(0, 2).toUpperCase();
+        profileIcon.style.display = 'flex';
+        // TODO: Populate watchlist and watched from Watchlist and Watched tables
     } 
     else {
         // User is signed out.
-        if (user === null){
-            console.log('user is null');
-        }
+        console.log('User is null');
         signUpClick.style.display = 'flex';
         signInClick.style.display = 'flex';
         signOutClick.style.display = 'none';
+        profileIcon.style.display = 'none';
+        // TODO: Clear watchlist and watched, take user to watchlist tab
     }
 });

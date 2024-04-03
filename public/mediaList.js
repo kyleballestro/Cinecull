@@ -2,8 +2,7 @@
     This file contains the functions necessary for populating the lists of media.
 */
 import { auth } from './firebaseConfig.js';
-import { populateMainListGenres } from './sidebar.js';
-import { populateGenreCheckboxes } from './sidebar.js';
+import { populateMainListGenres, populateGenreCheckboxes } from './sidebar.js';
 
 // Function to create media cards for each media in the the dataset
 function createMediaCard(cardData) {
@@ -154,25 +153,120 @@ function moveToList(to, from, cardData){
     if (!to.some(item => item.mediaID.toString() === cardData.mediaID.toString())){
         to.push(cardData);
     }
+    // From watchlist or watched
     if (from !== searchList){
         removeFromList(from, cardData);
+        if (auth.currentUser){
+            var addTo = '';
+            var removeFrom = '';
+            if (from === watchlist){
+                addTo = 'addToWatched';
+                removeFrom = 'removeFromWatchlist';
+            }
+            else if (from === watchedList){
+                addTo = 'addToWatchlist';
+                removeFrom = 'removeFromWatched';
+            }
+            // Add media to either Watchlist table or Watched table
+            console.log(addTo + " in mediaList.js");
+            auth.currentUser.getIdToken(true).then(idToken => {
+                fetch('/' + addTo, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + idToken 
+                    },
+                    body: JSON.stringify(cardData)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok.');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            });
+            // Remove media from either Watchlist table or Watched table
+            auth.currentUser.getIdToken(true).then(idToken => {
+                fetch('/' + removeFrom, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + idToken 
+                    },
+                    body: JSON.stringify(cardData)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok.');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            });
+        }
     }
+    // From search
     else{
-        // Add it to the database media table
-        fetch('/insertMedia', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json', 
-                },
-                body: JSON.stringify(cardData)
+        if (auth.currentUser){
+            var addTo = '';
+            if (to === watchlist) addTo = 'addToWatchlist';
+            else if (to === watchedList) addTo = 'addToWatched';
+            // Add media to Media table
+            auth.currentUser.getIdToken(true).then(function(idToken) {
+                return fetch('/addToMedia', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + idToken
+                    },
+                    body: JSON.stringify(cardData)
+                });
             })
-            .then(response => response.text())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to add to Media table');
+                }
+                return response.text();
+            })
             .then(data => {
-                console.log('Success in adding media to table:', data);
+                console.log('(mediaList.js) Success in adding to media table:', data);
+                return auth.currentUser.getIdToken(true);
+            })
+            // Add media to either Watchlist table or Watched table
+            .then(idToken => {
+                return fetch('/' + addTo, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + idToken
+                    },
+                    body: JSON.stringify(cardData)
+                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Failed to add to ${addTo}`);
+                }
+                return response.text();
+            })
+            .then(data => {
+                console.log(`(mediaList.js) Success in ${addTo}:`, data);
             })
             .catch((error) => {
-                console.error('Error adding media to table:', error);
+                console.error('(mediaList.js) Error:', error);
             });
+        }
     }
 }
 
