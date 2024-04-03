@@ -1,0 +1,122 @@
+/* Sign In and Sign Out */
+.modal {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 10;
+  background-color: #363636;
+  padding: 30px 50px 50px 50px;
+  border-radius: 20px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.sign-up-info,
+.sign-in-info {
+  display: flex;
+  flex-direction: column;
+  background-color: #363636;
+  border-radius: 15px;
+  align-items: center;
+}
+
+.email-password {
+  margin-bottom: 30px;
+  height: 36px;
+  font-size: 18px;
+  background-color: #363636;
+  color: white;
+  outline: none;
+  border: none;
+  border-bottom: white solid 1px;
+  font-family: "Archivo Black";
+}
+
+.email-password::placeholder {
+  color: white;
+  font-family: "Archivo Black";
+}
+
+.create-button {
+  display: flex;
+  flex-direction: row;
+  width: 200px;
+  align-items: center;
+  justify-content: center;
+  background-color: #3a3f74;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+  color: white;
+  font-family: "Archivo Black";
+  outline: none;
+  padding: 4px 16px 4px 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  align-self: flex-end;
+}
+
+.create-text {
+  margin-right: 10px;
+}
+
+.bad-info {
+  color: red;
+  align-self: flex-start;
+  margin-top: 0px;
+  margin-bottom: 30px;
+  display: none;
+}
+
+.cancel-proceed {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.sign-button {
+  width: 120px;
+  background-color: #3a3f74;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+  color: white;
+  font-family: "Archivo Black";
+  outline: none;
+  padding: 12px 16px 12px 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.sign-button:hover {
+  background-color: #4e527d;
+}
+
+#sign-up-cancel-button,
+#sign-in-cancel-button {
+  background-color: #545353;
+}
+
+#sign-up-cancel-button:hover {
+  background-color: #6b6b6b;
+}
+
+#sign-in-cancel-button:hover {
+  background-color: #6b6b6b;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9;
+}

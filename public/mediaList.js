@@ -1,6 +1,9 @@
 /*
     This file contains the functions necessary for populating the lists of media.
 */
+import { auth } from './firebaseConfig.js';
+import { populateMainListGenres } from './sidebar.js';
+import { populateGenreCheckboxes } from './sidebar.js';
 
 // Function to create media cards for each media in the the dataset
 function createMediaCard(cardData) {
@@ -52,7 +55,7 @@ function createMediaCard(cardData) {
     const whereToWatchP = document.createElement('p');
     whereToWatchP.className = 'where-to-watch';
     whereToWatchP.id = `where-to-watch-${cardData.mediaID}`;
-    whereToWatchP.textContent = 'Here is where I will put the list of streamers';
+    whereToWatchP.textContent = 'N/A';
 
     const contentOptionsDiv = document.createElement('div');
     contentOptionsDiv.className = 'content-options';
@@ -154,6 +157,23 @@ function moveToList(to, from, cardData){
     if (from !== searchList){
         removeFromList(from, cardData);
     }
+    else{
+        // Add it to the database media table
+        fetch('/insertMedia', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', 
+                },
+                body: JSON.stringify(cardData)
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Success in adding media to table:', data);
+            })
+            .catch((error) => {
+                console.error('Error adding media to table:', error);
+            });
+    }
 }
 
 // Removes the given media item from the list
@@ -211,3 +231,5 @@ function populateMediaCards(selectedList) {
     const itemCount = document.querySelector('.item-count');
     itemCount.textContent = `${selectedList.length} Items`;
 }
+
+export { populateMediaCards };

@@ -21,16 +21,24 @@ Misc.
 - Choose a URL
     - flickpick.org is available
     - pickaflick.org
+    - cinecull.org
 - Go through and update HTML with better tags
 
 
 Firebase Authentication
 ----------------------------------------------
-- Add Firebase authentication for user login
+- Store the current user ID when they sign up/in
+
+
+Login
+----------------------------------------------
+- Upon signing up/in, make sure to check if Firebase says email/password is no good. If it isn't, display warning text.
 
 
 Database for Watchlist Table and Watched Table
 -----------------------------------------------
+!!!! When adding to database, you have to add it to media table first then either watchlist or watched table
+!!!!!!! Ensure that anytime you're doing anything with the database that curUserID != '-1'
 - Add database that includes:
     - watchlist table of userID and movie details on that user's watchlist (include media ID)
     - watched table of userID and movie details on that user's watched (include media ID)

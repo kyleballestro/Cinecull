@@ -3,18 +3,81 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Watchlist</title>
+    <title>Cinecull</title>
     <link rel="stylesheet" href="styles/general.css" />
     <link rel="stylesheet" href="styles/main-container.css" />
     <link rel="stylesheet" href="styles/header.css" />
+    <link rel="stylesheet" href="styles/sign-up-in.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap"
       rel="stylesheet"
     />
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"
+    ></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"
+    ></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"
+    ></script>
   </head>
   <body>
+    <!-- Sign Up Popup-->
+    <div id="sign-up-modal" class="modal">
+      <h2 class="sign-up-text">Sign Up</h2>
+      <div class="sign-up-info">
+        <input
+          id="sign-up-email"
+          class="email-password"
+          type="text"
+          placeholder="Email"
+        />
+        <input
+          id="sign-up-password"
+          class="email-password"
+          type="password"
+          placeholder="Password"
+        />
+        <p class="bad-info" id="sign-up-info-bad">Incorrect email/password</p>
+        <div class="cancel-proceed">
+          <button class="sign-button" id="sign-up-cancel-button">Cancel</button>
+          <button class="sign-button" id="sign-up-button">Sign Up</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sign In Popup-->
+    <div id="sign-in-modal" class="modal">
+      <h2 class="sign-in-text">Sign In</h2>
+      <div class="sign-in-info">
+        <input
+          id="sign-in-email"
+          class="email-password"
+          type="text"
+          placeholder="Email"
+        />
+        <input
+          id="sign-in-password"
+          class="email-password"
+          type="password"
+          placeholder="Password"
+        />
+        <p class="bad-info" id="sign-in-info-bad">Incorrect email/password</p>
+        <div class="cancel-proceed">
+          <button class="sign-button" id="sign-in-cancel-button">Cancel</button>
+          <button class="sign-button" id="sign-in-button">Sign In</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
     <!-- Header content -->
     <div class="header">
       <div class="left-section">
@@ -38,6 +101,9 @@
       </div>
 
       <div class="right-section">
+        <div class="sign-up-click" id="sign-up-click">Sign Up</div>
+        <div class="sign-in-click" id="sign-in-click">Sign In</div>
+        <div class="sign-out-click" id="sign-out-click">Sign Out</div>
         <div class="profile-icon">KB</div>
       </div>
     </div>
@@ -98,9 +164,11 @@
         certified, or otherwise approved by TMDB.
       </p>
     </div>
+
+    <!-- <script type="module" src="firebaseConfig.js"></script> -->
     <script src="globals.js"></script>
-    <script src="sidebar.js"></script>
-    <script src="mediaList.js"></script>
-    <script src="script.js"></script>
+    <script type="module" src="sidebar.js"></script>
+    <script type="module" src="mediaList.js"></script>
+    <script type="module" src="index.js"></script>
   </body>
 </html>

@@ -12,3 +12,4 @@
 12. Add filtering with genres.
 13. Separate JS files for organization.
 14. Add content box and functionality for adding to/removing from lists and seeing where to watch media.
+15. Added signing up/in/out with Firebase authentication.

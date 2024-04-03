@@ -80,7 +80,8 @@
 }
 
 .profile-icon {
-  display: flex;
+  /* display: flex; */
+  display: none;
   flex: 1;
   align-items: center;
   justify-content: center;
@@ -88,4 +89,20 @@
   width: 54px;
   border-radius: 50%;
   border-style: solid;
+}
+
+.sign-up-click {
+  display: none;
+  cursor: pointer;
+  margin-right: 25px;
+}
+
+.sign-in-click {
+  display: none;
+  cursor: pointer;
+}
+
+.sign-out-click {
+  display: none;
+  cursor: pointer;
 }
