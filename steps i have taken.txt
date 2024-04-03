@@ -13,3 +13,6 @@
 13. Separate JS files for organization.
 14. Add content box and functionality for adding to/removing from lists and seeing where to watch media.
 15. Added signing up/in/out with Firebase authentication.
+16. Set up MySQL database with media table, watchlist table, and watched table
+17. Planned all of the functions I would need in order to use the database server side
+18. Implemented adding data to database, then removing data from database, then getting data from database upon sign in.

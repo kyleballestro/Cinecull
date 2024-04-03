@@ -27,13 +27,6 @@ var signInPassword = document.getElementById('sign-in-password');
 var signOutClick = document.getElementById('sign-out-click');
 
 
-// Load up the watchlist first
-window.onload = function(){
-    populateMediaCards(watchlist);
-    mainList = watchlist;
-    document.getElementById('genre-checkboxes').style.display = 'none';
-}
-
 // Switch to watchlist tab
 watchlistTab.addEventListener('click', function(event) {
     if (curTab != 'watchlistTab'){
@@ -122,7 +115,7 @@ searchBar.addEventListener('keydown', function(event) {
                     searchList.push(media);   
                 }
             }
-            // Populate mainList using searchList
+            // Populate the main list using searchList
             populateMediaCards(searchList);
         })
         .catch(error => console.error('Error fetching data:', error));
@@ -272,23 +265,76 @@ overlay.addEventListener('click', function(event) {
 });
 
 auth.onAuthStateChanged((user) => {
-    if (user) {
+    if (user && !isAlreadyRun) {
         // User is signed in.
+        isAlreadyRun = true;
         console.log(`User is signed in: ${user.email}, ${user.uid}`);
         signUpClick.style.display = 'none';
         signInClick.style.display = 'none';
         signOutClick.style.display = 'flex';
         profileIcon.textContent = user.email.toString().substring(0, 2).toUpperCase();
         profileIcon.style.display = 'flex';
-        // TODO: Populate watchlist and watched from Watchlist and Watched tables
+        // Populate the watchlist from database
+        auth.currentUser.getIdToken(true).then(idToken => {
+            fetch('/getWatchlist', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + idToken 
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+                return response.text();
+            })
+            .then(data => {
+                console.log('getWatchlist success:', data);
+                watchlist = JSON.parse(data);
+                if (curTab === 'watchlistTab'){
+                    populateMediaCards(watchlist);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+        // Populate the watched list from database
+        auth.currentUser.getIdToken(true).then(idToken => {
+            fetch('/getWatched', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + idToken 
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+                return response.text();
+            })
+            .then(data => {
+                console.log('getWatched success:', data);
+                watchedList = JSON.parse(data);
+                if (curTab === 'watchedTab'){
+                    populateMediaCards(watchedList);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
     } 
-    else {
+    else if (!user) {
         // User is signed out.
+        isAlreadyRun = false;
         console.log('User is null');
         signUpClick.style.display = 'flex';
         signInClick.style.display = 'flex';
         signOutClick.style.display = 'none';
         profileIcon.style.display = 'none';
-        // TODO: Clear watchlist and watched, take user to watchlist tab
+        watchlist = [];
+        watchedList = [];
+        watchlistTab.click();
     }
 });

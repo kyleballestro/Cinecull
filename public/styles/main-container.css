@@ -29,6 +29,10 @@
   margin-bottom: 30px;
 }
 
+.genre-checkboxes {
+  display: none;
+}
+
 .checkbox {
   margin-bottom: 15px;
 }

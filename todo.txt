@@ -25,6 +25,7 @@ Misc.
     - pickaflick.org
     - cinecull.org
 - Go through and update HTML with better tags
+- Fully comment everything
 
 
 Firebase Authentication

@@ -253,6 +253,67 @@ app.delete('/removeFromWatched', authenticateRequest, (req, res) => {
 });
 
 
+function getWatchlist(userID, callback) {
+    const getSQL = `
+        SELECT m.mediaID, m.thumbnail, m.title, m.mediaType, m.genre, m.year, m.description
+        FROM media m
+        INNER JOIN watchlist w ON m.mediaID = w.mediaID
+        WHERE w.userID = ?;
+    `;
+
+    connection.query(getSQL, [userID], (error, results) => {
+        if (error) {
+            console.error('Error fetching media details:', error);
+            return callback(error, null);
+        }
+        callback(null, results);
+    });
+}
+
+app.get('/getWatchlist', authenticateRequest, (req, res) => {
+    const userID = req.userID;
+
+    getWatchlist(userID, (error, results) => {
+        if (error) {
+            console.log('FROM SERVER.JS Error fetching media details');
+            return res.status(500).send('FROM SERVER.JS Error fetching media details');
+        }
+        console.log('FROM SERVER.JS Success fetching watchlist details');
+        return res.status(200).json(results);
+    });
+});
+
+function getWatched(userID, callback) {
+    const getSQL = `
+        SELECT m.mediaID, m.thumbnail, m.title, m.mediaType, m.genre, m.year, m.description
+        FROM media m
+        INNER JOIN watched w ON m.mediaID = w.mediaID
+        WHERE w.userID = ?;
+    `;
+
+    connection.query(getSQL, [userID], (error, results) => {
+        if (error) {
+            console.error('Error fetching watched details:', error);
+            return callback(error, null);
+        }
+        callback(null, results);
+    });
+}
+
+app.get('/getWatched', authenticateRequest, (req, res) => {
+    const userID = req.userID;
+
+    getWatched(userID, (error, results) => {
+        if (error) {
+            console.log('FROM SERVER.JS Error fetching media details');
+            return res.status(500).send('FROM SERVER.JS Error fetching media details');
+        }
+        console.log('FROM SERVER.JS Success fetching media details');
+        return res.status(200).json(results);
+    });
+});
+
+
 // --------- TMDB API ---------
 // TMDB API call to get the search results (TV and Movie) from a given title
 app.get('/searchMedia', async (req, res) => {

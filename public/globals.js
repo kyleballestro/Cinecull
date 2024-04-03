@@ -1,5 +1,6 @@
 var fromApplyFilter = false;
 var curTab = 'watchlistTab';
+var isAlreadyRun = false;
 
 var movieGenres = {
     28: "Action",
@@ -43,60 +44,7 @@ var tvGenres = {
 };
 
 var mainListGenres = [];
-
-// Object to hold details of each media (will later be populated by TMDB API calls)
-var watchlist = [
-    {
-        mediaID: '1396',
-        thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg",
-        title: "Breaking Bad",
-        mediaType: "TV Show",
-        genre: "Crime, Drama, Thriller",
-        year: "2008",
-        description: "A chemistry teacher diagnosed with inoperable lung cancer turns to manufacturing and selling methamphetamine with a former student in order to secure his family's future."
-    },
-    {
-        mediaID: '335984',
-        thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg",
-        title: "Blade Runner 2049",
-        mediaType: "Movie",
-        genre: "Sci-Fi, Mystery",
-        year: "2017",
-        description: "Thirty years after the events of the first film, a new blade runner, LAPD Officer K, unearths a long-buried secret that has the potential to plunge what's left of society into chaos. K's discovery leads him on a quest to find Rick Deckard, a former LAPD blade runner who has been missing for 30 years."
-      }
-    ];
-
-var watchedList = [
-    {
-        mediaID: '69740',
-        thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/pCGyPVrI9Fzw6rE1Pvi4BIXF6ET.jpg",
-        title: "Ozark",
-        mediaType: "TV Show",
-        genre: "Crime, Drama",
-        year: "2017",
-        description: "A financial advisor drags his family from Chicago to the Missouri Ozarks, where he must launder money to appease a drug boss."
-    },
-    {
-        mediaID: '6977',
-        thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/bj1v6YKF8yHqA489VFfnQvOJpnc.jpg",
-        title: "No Country For Old Men",
-        mediaType: "Movie",
-        genre: "Sci-Fi, Mystery",
-        year: "2002",
-        description: "Violence and mayhem ensue after a hunter stumbles upon the aftermath of a drug deal gone wrong and over two million dollars in cash near the Rio Grande."
-    },
-    {
-        mediaID: '157336',
-        thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
-        title: "Interstellar",
-        mediaType: "Movie",
-        genre: "Sci-Fi, Adventure, Drama",
-        year: "2014",
-        description: 'The adventures of a group of explorers who make use of a newly discovered wormhole to surpass the limitations on human space travel and conquer the vast distances involved in an interstellar voyage.'
-    }
-];
-
-// var watchlist = [];
-// var watchedList = [];
+var watchlist = [];
+var watchedList = [];
 var searchList = [];
-var mainList = [];
+var mainList = watchlist;
