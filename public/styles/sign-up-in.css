@@ -65,11 +65,11 @@
 }
 
 .bad-info {
+  display: none;
   color: red;
   align-self: flex-start;
   margin-top: 0px;
   margin-bottom: 30px;
-  display: none;
 }
 
 .cancel-proceed {

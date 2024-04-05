@@ -16,3 +16,4 @@
 16. Set up MySQL database with media table, watchlist table, and watched table
 17. Planned all of the functions I would need in order to use the database server side
 18. Implemented adding data to database, then removing data from database, then getting data from database upon sign in.
+19. Updated signing up/in error messages to use red text instead of alerts.

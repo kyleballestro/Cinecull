@@ -17,6 +17,8 @@ var signUpCancel = document.getElementById('sign-up-cancel-button');
 var signUpButton = document.getElementById('sign-up-button');
 var signUpEmail = document.getElementById('sign-up-email');
 var signUpPassword = document.getElementById('sign-up-password');
+var signUpPasswordRepeat = document.getElementById('sign-up-password-repeat');
+var signUpInfoBad = document.getElementById('sign-up-info-bad');
 
 var signInModal = document.getElementById('sign-in-modal');
 var signInClick = document.getElementById('sign-in-click');
@@ -25,28 +27,28 @@ var signInButton = document.getElementById('sign-in-button');
 var signInEmail = document.getElementById('sign-in-email');
 var signInPassword = document.getElementById('sign-in-password');
 var signOutClick = document.getElementById('sign-out-click');
+var signInInfoBad = document.getElementById('sign-in-info-bad');
+
 
 
 // Switch to watchlist tab
 watchlistTab.addEventListener('click', function(event) {
-    if (curTab != 'watchlistTab'){
-        curTab = 'watchlistTab';
-        // Clear the main list
-        const list = document.querySelector('.main-list');
-        list.innerHTML = '';
+    curTab = 'watchlistTab';
+    // Clear the main list
+    const list = document.querySelector('.main-list');
+    list.innerHTML = '';
 
-        // Populate it with the items in watchlist
-        populateMediaCards(watchlist);
+    // Populate it with the items in watchlist
+    populateMediaCards(watchlist);
 
-        // Clear the search bar, change list title
-        searchBar.value = '';
-        listTitle.textContent = 'Watchlist';
+    // Clear the search bar, change list title
+    searchBar.value = '';
+    listTitle.textContent = 'Watchlist';
 
-        // Clear the watched tab background and set the watchlist tab background
-        watchedTab.style.background = 'none';
-        this.style.backgroundColor = '#3A3F74';
-        mainList = watchlist;
-    }
+    // Clear the watched tab background and set the watchlist tab background
+    watchedTab.style.background = 'none';
+    this.style.backgroundColor = '#3A3F74';
+    mainList = watchlist;
 });
 
 // Switch to watchlist tab
@@ -82,10 +84,9 @@ searchBar.addEventListener('keydown', function(event) {
         list.innerHTML = '';
         searchList = [];
 
+        // TMDB API call on the server side and receive it. Parse and populate searchList.
         const searchedTitle = this.value;
         const encodedTitle = encodeURIComponent(searchedTitle);
-
-        // TMDB API call on the server side and receive it. Parse and populate searchList.
         fetch(`/searchMedia?title=${encodedTitle}`)
         .then(response => response.json())
         .then(data => {
@@ -143,25 +144,30 @@ signUpCancel.addEventListener('click', function(event) {
     overlay.style.display = 'none';
     signUpEmail.value = '';
     signUpPassword.value = '';
+    signUpPasswordRepeat.value = '';
+    signUpInfoBad.style.display = 'none';
 });
 
 signUpButton.addEventListener('click', function(event) {
     const email = signUpEmail.value;
     const password = signUpPassword.value;
-    if (email.length < 4) {
-        alert('Please enter an email address.');
+    const passwordRepeat = signUpPasswordRepeat.value;
+    if (email.length < 4 || password.length < 4 || passwordRepeat.length < 4) {
+        signUpInfoBad.textContent = 'Please sufficiently fill in all fields';
+        signUpInfoBad.style.display = 'block';
         return;
     }
-    if (password.length < 4) {
-        alert('Please enter a password.');
+    if (password !== passwordRepeat){
+        signUpInfoBad.textContent = 'Passwords do not match';
+        signUpInfoBad.style.display = 'block';
         return;
     }
     // Create user with email and pass.
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
         // Signed up 
-        console.log("User signed up: ", user);
         var user = userCredential.user;
+        console.log("User signed up: ", user);
         signUpClick.style.display = 'none';
         signInClick.style.display = 'none';
         signOutClick.style.display = 'flex';
@@ -169,15 +175,25 @@ signUpButton.addEventListener('click', function(event) {
         overlay.style.display = 'none';
         signUpEmail.value = '';
         signUpPassword.value = '';
+        signUpPasswordRepeat.value = '';
+        signUpInfoBad.style.display = 'none';
     })
     .catch(function (error) {
         // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
-        if (errorCode == 'auth/weak-password') {
-        alert('The password is too weak.');
-        } else {
-        alert(errorMessage);
+        if (errorCode == 'auth/weak-password'){
+            signUpInfoBad.textContent = 'Password is too weak';
+            signUpInfoBad.style.display = 'block';
+            return;
+        } 
+        else if (errorCode == 'auth/email-already-in-use'){
+            signUpInfoBad.textContent = 'Email is already in use';
+            signUpInfoBad.style.display = 'block';
+            return;
+        }
+        else {
+            alert(errorMessage);
         }
         console.log(error);
     });
@@ -196,17 +212,16 @@ signInCancel.addEventListener('click', function(event) {
     overlay.style.display = 'none';
     signInEmail.value = '';
     signInPassword.value = '';
+    signInInfoBad.textContent = '';
+    signInInfoBad.style.display = 'none';
 });
 
 signInButton.addEventListener('click', function(event) {
     const email = signInEmail.value;
     const password = signInPassword.value;
-    if (email.length < 4) {
-        alert('Please enter an email address.');
-        return;
-    }
-    if (password.length < 4) {
-        alert('Please enter a password.');
+    if (email.length < 4 || password.length < 4) {
+        signInInfoBad.textContent = 'Please sufficiently fill in all fields';
+        signInInfoBad.style.display = 'block';
         return;
     }
     // Sign in with email and pass.
@@ -222,14 +237,28 @@ signInButton.addEventListener('click', function(event) {
         overlay.style.display = 'none';
         signInEmail.value = '';
         signInPassword.value = '';
+        signInInfoBad.textContent = '';
+        signInInfoBad.style.display = 'none';
     })    
     .catch(function (error) {
         // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
-        if (errorCode === 'auth/wrong-password') {
-            alert('Wrong password.');
+        if (errorCode === 'auth/wrong-password'){
+            signInInfoBad.textContent = 'Wrong password';
+            signInInfoBad.style.display = 'block';
+            return;
         } 
+        else if (errorCode === 'auth/invalid-login-credentials'){
+            signInInfoBad.textContent = 'Invalid credentials';
+            signInInfoBad.style.display = 'block';
+            return;
+        }
+        else if (errorCode === 'auth/invalid-email'){
+            signInInfoBad.textContent = 'Invalid email format';
+            signInInfoBad.style.display = 'block';
+            return;
+        }
         else {
             alert(errorMessage);
         }
@@ -262,13 +291,16 @@ overlay.addEventListener('click', function(event) {
     signUpPassword.value = '';
     signInEmail.value = '';
     signInPassword.value = '';
+    signUpPasswordRepeat.value = '';
+    signUpInfoBad.style.display = 'none';
+    signInInfoBad.textContent = '';
+    signInInfoBad.style.display = 'none';
 });
 
 auth.onAuthStateChanged((user) => {
     if (user && !isAlreadyRun) {
         // User is signed in.
         isAlreadyRun = true;
-        console.log(`User is signed in: ${user.email}, ${user.uid}`);
         signUpClick.style.display = 'none';
         signInClick.style.display = 'none';
         signOutClick.style.display = 'flex';
@@ -327,8 +359,8 @@ auth.onAuthStateChanged((user) => {
     } 
     else if (!user) {
         // User is signed out.
+        console.log("No user signed in");
         isAlreadyRun = false;
-        console.log('User is null');
         signUpClick.style.display = 'flex';
         signInClick.style.display = 'flex';
         signOutClick.style.display = 'none';

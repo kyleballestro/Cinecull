@@ -1,6 +1,6 @@
 NEXT UP 
 ----------------------------------------------
-Grab the user's watchlist and watched information from tables upon signing in (and up?)
+
 
 
 TMDB API Stuff
@@ -13,8 +13,6 @@ General Additions
 -----------------------------------------------
 - Add a "See More" button after filtering to recall the API with that title and media type to see 20 options
     - Only do it if the size of the mainList < 20
-- Maybe a "See More Details" under the three dots of an item to see runtime, where it's streaming, maybe something else. This would be done with another API call 
-  to its ID specifically.
 - Maybe add a Page 1 > option to go to another page of results. It would be another API call
 
 
@@ -34,10 +32,7 @@ Firebase Authentication
 
 Login
 ----------------------------------------------
-- Upon signing up/in, make sure to check if Firebase says email/password is no good. If it isn't, display warning text instead of error dialog box.
 - Upon sign UP: add all watchlist and watched list to database for that user id
-- Upon sign OUT: take user to watchlist tab and clear watchlist and watched arrays
-- Add a "repeat password" field that makes the user reenter their password when signing up
 
 
 Database for Watchlist Table and Watched Table
