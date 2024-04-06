@@ -1,6 +1,6 @@
 NEXT UP 
 ----------------------------------------------
-
+- Clean up media queries
 
 
 TMDB API Stuff
@@ -24,6 +24,7 @@ Misc.
     - cinecull.org
 - Go through and update HTML with better tags
 - Fully comment everything
+- If zoom in, hide filter, then zoom out filter is still hidden
 
 
 Firebase Authentication
@@ -37,6 +38,7 @@ Login
 
 Database for Watchlist Table and Watched Table
 -----------------------------------------------
+- Triple check against SQL injections
 - Refresh cached data:
     1. Timestamp Your Cached Data
     When you cache data from TMDB, also store the timestamp of when the data was fetched. This allows you to determine how old the cached data is.

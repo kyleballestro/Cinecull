@@ -4,6 +4,8 @@
 import { auth, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword } from './firebaseConfig.js';
 import { populateMediaCards } from './mediaList.js';
 
+var filterIcon = document.getElementById('filter-icon');
+var sidebar = document.getElementById('sidebar');
 var watchlistTab = document.getElementById('watchlist-tab');
 var watchedTab = document.getElementById('watched-tab');
 var searchBar = document.getElementById('search-bar');
@@ -127,6 +129,10 @@ searchBar.addEventListener('keydown', function(event) {
         listTitle.textContent = 'Searched: ' + this.value;
         mainList = searchList;
     }
+});
+
+filterIcon.addEventListener('click', function(event) {
+    sidebar.style.display = sidebar.style.display === 'block' ? 'none' : 'block';
 });
 
 

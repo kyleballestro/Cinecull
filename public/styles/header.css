@@ -1,5 +1,5 @@
 .header {
-  height: 55px;
+  /* height: 55px; */
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -17,6 +17,10 @@
   flex-direction: row;
   margin-left: 15px;
   font-size: 18px;
+}
+
+.filter-icon {
+  display: none;
 }
 
 .watchlist-tab {
@@ -56,7 +60,6 @@
 
 .search-bar {
   flex: 1;
-  height: 36px;
   font-size: 18px;
   width: 0;
   padding-left: 10px;
@@ -77,10 +80,10 @@
   align-items: center;
   justify-content: right;
   margin-right: 15px;
+  flex-direction: row;
 }
 
 .profile-icon {
-  /* display: flex; */
   display: none;
   flex: 1;
   align-items: center;
@@ -106,4 +109,74 @@
 .sign-out-click {
   display: none;
   cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    padding: 18px 15px 0px 15px;
+  }
+
+  /* Middle */
+  .left-section {
+    order: 2;
+    justify-content: flex-start;
+    margin-left: 0px;
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+
+  .filter-icon {
+    display: block;
+    margin-right: 15px;
+    margin-left: 7px;
+    height: 20px;
+    width: 20px;
+  }
+
+  .watchlist-tab {
+    flex-grow: 0;
+  }
+
+  .divider-line {
+    flex-grow: 0;
+  }
+
+  .watched-tab {
+    flex-grow: 0;
+  }
+
+  /* Bottom */
+  .middle-section {
+    order: 3;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  .search-icon {
+    margin-right: 10px;
+    margin-left: 10px;
+    height: 15px;
+    width: 15px;
+  }
+
+  .search-bar {
+    font-size: 14px;
+  }
+
+  /* Top */
+  .right-section {
+    order: 1;
+    justify-content: flex-end;
+    margin-right: 0px;
+    margin-left: 10px;
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+
+  .profile-icon {
+    max-width: 27px;
+    max-height: 27px;
+    font-size: 10px;
+  }
 }

@@ -87,6 +87,12 @@
     <!-- Header content -->
     <div class="header">
       <div class="left-section">
+        <img
+          class="filter-icon"
+          id="filter-icon"
+          src="images/filter-left.svg"
+          alt="filter"
+        />
         <div id="watchlist-tab" class="watchlist-tab">Watchlist</div>
         <div class="divider-line">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</div>
         <div id="watched-tab" class="watched-tab">Watched</div>
@@ -117,8 +123,8 @@
     <!-- Main container content -->
     <div class="main-container">
       <!-- Sidebar content -->
-      <div class="sidebar">
-        <h2>Filter</h2>
+      <div class="sidebar" id="sidebar">
+        <h2 class="filter-title">Filter</h2>
         <hr class="filter-line" />
         <div class="checkbox">
           <input
@@ -157,7 +163,7 @@
       <!-- Main content -->
       <div class="main-content">
         <div class="watchlist">
-          <h1 id="list-title">Watchlist</h1>
+          <h1 class="list-title" id="list-title">Watchlist</h1>
           <div class="item-count"></div>
           <ul class="main-list"></ul>
         </div>

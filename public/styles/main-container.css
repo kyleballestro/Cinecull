@@ -8,7 +8,7 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  width: 220px;
+  max-width: 100%;
   height: 100%;
   padding: 40px;
   background-color: #363636;
@@ -101,6 +101,7 @@
 
 .main-content {
   flex: 1;
+  width: 100%;
   background-color: #3a3f74;
   padding: 60px 60px 30px 60px;
   border-radius: 20px;
@@ -116,6 +117,11 @@
 .main-list {
   list-style: none;
   padding: 0;
+}
+
+.list-title {
+  margin-bottom: 10px;
+  margin-top: 0px;
 }
 
 .media-card {
@@ -230,4 +236,157 @@ ul.main-list li:last-child {
 
 .tmdb-disclaimer {
   margin: 0px 25px 40px 25px;
+}
+
+@media screen and (max-width: 768px) {
+  .main-container {
+    margin-top: 15px;
+  }
+
+  .sidebar {
+    display: none;
+    font-size: 12px;
+    margin-left: 10px;
+    padding: 16px;
+    border-radius: 15px;
+  }
+
+  .filter-title {
+    font-size: 16px;
+    margin-top: 0px;
+    margin-bottom: 10px;
+  }
+
+  .filter-line {
+    margin-bottom: 15px;
+  }
+
+  .checkbox {
+    margin-bottom: 10px;
+  }
+
+  .checkbox.genre {
+    margin-left: 15px;
+  }
+
+  .genre-and-plusminus {
+    margin-bottom: 10px;
+  }
+
+  .apply-and-reset {
+    margin-top: 10px;
+  }
+
+  .filter-button {
+    padding: 7px 15px;
+    border-radius: 7px;
+  }
+
+  .apply-filter {
+    margin-right: 5px;
+  }
+
+  .reset-filter {
+    margin-left: 5px;
+  }
+
+  /* Main content ------------------------------------------------------------------ */
+
+  .main-content {
+    font-size: 12px;
+    padding: 20px 0px 20px 20px;
+    border-radius: 15px;
+    margin: 0px 10px 30px 10px;
+  }
+
+  .list-title {
+    font-size: 18px;
+  }
+
+  .item-count {
+    margin-bottom: 0px;
+  }
+
+  .main-list {
+    list-style: none;
+    padding: 0;
+    margin-right: 20px;
+  }
+
+  .media-card {
+    width: 100%;
+    align-items: top;
+    padding: 20px 0px 20px 0px;
+  }
+
+  .thumbnail {
+    margin-right: 0px;
+  }
+
+  .thumbnail img {
+    width: 43px;
+    height: 65px;
+    border-radius: 5px;
+  }
+
+  .card-content {
+    flex-grow: 1;
+    margin-left: 15px;
+  }
+
+  .title-and-dots-row {
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .title {
+    font-size: 14px;
+    margin: 0px 20px 0px 0px;
+  }
+
+  .three-dots-icon {
+    height: 20px;
+    width: 20px;
+    filter: invert(100%);
+  }
+
+  .type-genre-year {
+    margin-top: 0px;
+    margin-bottom: 10px;
+  }
+
+  .media-description {
+    margin: 0;
+    max-width: 900px;
+  }
+
+  .content-options {
+    width: 120px;
+    padding: 15px 15px 15px 15px;
+    margin-top: 25px;
+  }
+
+  .options-line {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .credits {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .tmdb-logo {
+    margin-left: 15px;
+    margin-bottom: 20px;
+    height: 15px;
+  }
+
+  .tmdb-disclaimer {
+    font-size: 12px;
+    margin: 0px 15px 20px 15px;
+  }
 }

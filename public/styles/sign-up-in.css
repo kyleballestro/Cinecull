@@ -121,3 +121,34 @@
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 9;
 }
+
+@media screen and (max-width: 768px) {
+  .modal {
+    padding: 15px 25px 25px 25px;
+  }
+
+  .sign-up-text,
+  .sign-in-text {
+    font-size: 18px;
+  }
+
+  .email-password {
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+
+  .create-button {
+    width: 150px;
+  }
+
+  .cancel-proceed {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+  .bad-info {
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+}

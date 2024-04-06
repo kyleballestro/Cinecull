@@ -98,30 +98,31 @@ function populateGenreCheckboxes(){
     genreCheckboxes.innerHTML = '';
     for (let i = 0; i < mainListGenres.length; i++){
         var theGenre = mainListGenres[i];
-
-        // Create the container that holds the checkbox and the label
-        const genreCheckbox = document.createElement("div");
-        genreCheckbox.className = 'checkbox genre';
-        
-        // Create the checkbox
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.id = theGenre;
-        checkbox.name = theGenre;
-        checkbox.className = 'actual-checkbox';
-        
-        // Create a label and associate it with the checkbox
-        const label = document.createElement("label");
-        label.htmlFor = theGenre;
-        label.textContent = ' ' + theGenre;
-        label.className = 'checkbox-label';
-        
-        // Append the checkbox and label to the list item
-        genreCheckbox.appendChild(checkbox);
-        genreCheckbox.appendChild(label);
-        
-        // Append the list item to the unordered list
-        genreCheckboxes.appendChild(genreCheckbox);
+        if (theGenre !== 'N/A'){
+            // Create the container that holds the checkbox and the label
+            const genreCheckbox = document.createElement("div");
+            genreCheckbox.className = 'checkbox genre';
+            
+            // Create the checkbox
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.id = theGenre;
+            checkbox.name = theGenre;
+            checkbox.className = 'actual-checkbox';
+            
+            // Create a label and associate it with the checkbox
+            const label = document.createElement("label");
+            label.htmlFor = theGenre;
+            label.textContent = ' ' + theGenre;
+            label.className = 'checkbox-label';
+            
+            // Append the checkbox and label to the list item
+            genreCheckbox.appendChild(checkbox);
+            genreCheckbox.appendChild(label);
+            
+            // Append the list item to the unordered list
+            genreCheckboxes.appendChild(genreCheckbox);
+        }
     }
 }
 
