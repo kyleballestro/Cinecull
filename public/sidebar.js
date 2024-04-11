@@ -1,6 +1,7 @@
 /*
     This file contains the functions necessary for populating the sidebar. This includes the genres and the filtering system.
 */
+
 import { populateMediaCards } from './mediaList.js';
 
 var applyFilter = document.getElementById('apply-filter');
@@ -9,7 +10,7 @@ var plusMinus = document.getElementById('plus-minus');
 var genreCheckboxes = document.getElementById('genre-checkboxes');
 var genreText = document.getElementById('genre-text');
 
-// Apply Filter
+// Apply Filter button
 applyFilter.addEventListener('click', function(event) {
     fromApplyFilter = true;
     var checkedTypes = [];
@@ -53,7 +54,7 @@ applyFilter.addEventListener('click', function(event) {
     populateMediaCards(filteredList);
 });
 
-// Reset Filter
+// Reset Filter button
 resetFilter.addEventListener('click', function(event) {
     // Uncheck all the filters
     document.getElementById('moviesCheckbox').checked = false;
@@ -78,7 +79,7 @@ resetFilter.addEventListener('click', function(event) {
     }
 });
 
-// Function to populate the mainListGenres array given the current mainList
+// Populate the mainListGenres array given the current mainList
 function populateMainListGenres(selectedList){
     mainListGenres = [];
     for (let i = 0; i < selectedList.length; i++){
@@ -93,7 +94,7 @@ function populateMainListGenres(selectedList){
 
 export { populateMainListGenres };
 
-// Function to populate the list of genres that the user can filter with checkboxes
+// Populate the list of genres that the user can filter with checkboxes
 function populateGenreCheckboxes(){
     genreCheckboxes.innerHTML = '';
     for (let i = 0; i < mainListGenres.length; i++){
@@ -128,6 +129,7 @@ function populateGenreCheckboxes(){
 
 export { populateGenreCheckboxes };
 
+// If user clicks the text "Genre" or the plus sign icon, it shows the genres that can be filtered
 genreText.addEventListener('click', function(event) {
     displayGenreList();
 });

@@ -1,7 +1,11 @@
+/*
+    This file contains the functions necessary for using the Firebase Authentication system.
+*/
+
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
 
-// Firebase
+// Firebase configuration (API key not secret)
 const firebaseConfig = {
     apiKey: "AIzaSyBdJKGFKN1-tc0dYEVWnpSFB_spLzTQkRs",
     authDomain: "cinecull-e7ab6.firebaseapp.com",

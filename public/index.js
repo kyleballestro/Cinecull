@@ -1,6 +1,7 @@
 /*
     This file contains the functions necessary for handling the header and signing up/in.
 */
+
 import { auth, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword } from './firebaseConfig.js';
 import { populateMediaCards } from './mediaList.js';
 
@@ -32,7 +33,6 @@ var signOutClick = document.getElementById('sign-out-click');
 var signInInfoBad = document.getElementById('sign-in-info-bad');
 
 
-
 // Switch to watchlist tab
 watchlistTab.addEventListener('click', function(event) {
     curTab = 'watchlistTab';
@@ -53,7 +53,7 @@ watchlistTab.addEventListener('click', function(event) {
     mainList = watchlist;
 });
 
-// Switch to watchlist tab
+// Switch to watched tab
 watchedTab.addEventListener('click', function(event) {
     if (curTab != 'watchedTab'){
         curTab = 'watchedTab';
@@ -78,66 +78,77 @@ watchedTab.addEventListener('click', function(event) {
 // Switch to search tab
 searchBar.addEventListener('keydown', function(event) {
     if (event.key === 'Enter' && this.value != '') {
-        curTab = 'searchTab';
-        event.preventDefault();
-
-        // Clear the main list and searched
-        const list = document.querySelector('.main-list');
-        list.innerHTML = '';
-        searchList = [];
-
-        // TMDB API call on the server side and receive it. Parse and populate searchList.
+        // Call TMDB API to get the multi results from searching the user's input
         const searchedTitle = this.value;
-        const encodedTitle = encodeURIComponent(searchedTitle);
-        fetch(`/searchMedia?title=${encodedTitle}`)
-        .then(response => response.json())
-        .then(data => {
-            for (let i = 0; i < data.results.length; i++){
-                if (data.results[i].media_type !== 'person'){
-                    let media = {
-                        mediaID: data.results[i].id,
-                        thumbnail: data.results[i].poster_path === null ? 'images/no image available.webp' : 'https://image.tmdb.org/t/p/original' + data.results[i].poster_path, 
-                        title: data.results[i].title || data.results[i].name, 
-                        mediaType: data.results[i].title ? 'Movie' : 'TV Show', 
-                        genre: '', 
-                        year: (data.results[i].release_date || data.results[i].first_air_date), 
-                        description: data.results[i].overview ? data.results[i].overview : 'No description available.'
-                    };
-                    for (let j = 0; j < data.results[i].genre_ids.length; j++){
-                        var theGenre = media.mediaType === 'Movie' ? movieGenres[data.results[i].genre_ids[j]]: tvGenres[data.results[i].genre_ids[j]];
-                        media.genre += j === data.results[i].genre_ids.length - 1 ? theGenre: theGenre + ', ';
-                    }
-                    Object.keys(media).forEach(key => {
-                        if (media[key] === undefined || media[key] == '') {
-                            media[key] = 'N/A';
-                        }
-                    });
-                    if (media.year !== 'N/A'){
-                        media.year = media.year.substring(0, 4)
-                    }
-                    searchList.push(media);   
-                }
-            }
-            // Populate the main list using searchList
-            populateMediaCards(searchList);
-        })
-        .catch(error => console.error('Error fetching data:', error));
+        const invalidChars = /[^a-zA-Z0-9 \-\'\:\!\.]/g;  
+        if (searchedTitle.match(invalidChars)) {
+            alert("Invalid characters in input.");
+        }
+        else if (searchedTitle.length > 50){
+            alert("Input is too long.");
+        }
+        else{
+            curTab = 'searchTab';
+            event.preventDefault();
 
-        // Clear the backgrounds of watchlistTab and watchedTab, change list title
-        watchedTab.style.background = 'none';
-        watchlistTab.style.background = 'none';
-        listTitle.textContent = 'Searched: ' + this.value;
-        mainList = searchList;
+            // Clear the main list and searched
+            const list = document.querySelector('.main-list');
+            list.innerHTML = '';
+            searchList = [];
+            const encodedTitle = encodeURIComponent(searchedTitle);
+            fetch(`/searchMedia?title=${encodedTitle}`)
+            .then(response => response.json())
+            .then(data => {
+                for (let i = 0; i < data.results.length; i++){
+                    if (data.results[i].media_type !== 'person'){
+                        // Creating the media object. Every movie/tv show will fit into this object and it's used to populate the list item details.
+                        let media = {
+                            mediaID: data.results[i].id,
+                            thumbnail: data.results[i].poster_path === null ? 'images/no image available.webp' : 'https://image.tmdb.org/t/p/original' + data.results[i].poster_path, 
+                            title: data.results[i].title || data.results[i].name, 
+                            mediaType: data.results[i].media_type === 'movie' ? 'Movie' : 'TV Show', 
+                            genre: '', 
+                            year: (data.results[i].release_date || data.results[i].first_air_date), 
+                            description: data.results[i].overview ? data.results[i].overview : 'No description available.'
+                        };
+                        if (data.results[i].genre_ids !== undefined){
+                            for (let j = 0; j < data.results[i].genre_ids.length; j++){
+                                var theGenre = media.mediaType === 'Movie' ? movieGenres[data.results[i].genre_ids[j]]: tvGenres[data.results[i].genre_ids[j]];
+                                media.genre += j === data.results[i].genre_ids.length - 1 ? theGenre: theGenre + ', ';
+                            }
+                        }
+                        Object.keys(media).forEach(key => {
+                            if (media[key] === undefined || media[key] == '') {
+                                media[key] = 'N/A';
+                            }
+                        });
+                        if (media.year !== 'N/A'){
+                            media.year = media.year.substring(0, 4)
+                        }
+                        searchList.push(media);   
+                    }
+                }
+                // Populate the main list using the list of media items that were just searched for
+                populateMediaCards(searchList);
+            })
+            .catch(error => console.error('Error fetching TMDB data:', error));
+
+            // Clear the backgrounds of watchlistTab and watchedTab, change list title
+            watchedTab.style.background = 'none';
+            watchlistTab.style.background = 'none';
+            listTitle.textContent = 'Searched: ' + this.value;
+            mainList = searchList;
+        }
     }
 });
 
+// Toggle the sidebar visibility
 filterIcon.addEventListener('click', function(event) {
-    sidebar.style.display = sidebar.style.display === 'block' ? 'none' : 'block';
+    sidebar.style.display = sidebar.style.display === 'none' ? 'block' : 'none';
 });
 
 
-// ------------------------ Signing Up, In, and Out ------------------------
-
+// ------------------ Signing Up, In, and Out ------------------
 // Sign Up
 signUpClick.addEventListener('click', function(event) {
     signInModal.style.display = 'none';
@@ -158,22 +169,22 @@ signUpButton.addEventListener('click', function(event) {
     const email = signUpEmail.value;
     const password = signUpPassword.value;
     const passwordRepeat = signUpPasswordRepeat.value;
+    // Email, password, or repeat password too short
     if (email.length < 4 || password.length < 4 || passwordRepeat.length < 4) {
         signUpInfoBad.textContent = 'Please sufficiently fill in all fields';
         signUpInfoBad.style.display = 'block';
         return;
     }
+    // Password and repeat password don't match
     if (password !== passwordRepeat){
         signUpInfoBad.textContent = 'Passwords do not match';
         signUpInfoBad.style.display = 'block';
         return;
     }
-    // Create user with email and pass.
+    // Create user with email and pass using Firebase Authentication
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
         // Signed up 
-        var user = userCredential.user;
-        console.log("User signed up: ", user);
         signUpClick.style.display = 'none';
         signInClick.style.display = 'none';
         signOutClick.style.display = 'flex';
@@ -185,9 +196,9 @@ signUpButton.addEventListener('click', function(event) {
         signUpInfoBad.style.display = 'none';
     })
     .catch(function (error) {
-        // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
+        // Display relevant error messages if sign up was not successful
         if (errorCode == 'auth/weak-password'){
             signUpInfoBad.textContent = 'Password is too weak';
             signUpInfoBad.style.display = 'block';
@@ -201,7 +212,7 @@ signUpButton.addEventListener('click', function(event) {
         else {
             alert(errorMessage);
         }
-        console.log(error);
+        console.log("Error creating user:", error);
     });
 });
 
@@ -225,17 +236,16 @@ signInCancel.addEventListener('click', function(event) {
 signInButton.addEventListener('click', function(event) {
     const email = signInEmail.value;
     const password = signInPassword.value;
+    // Email or password was too short
     if (email.length < 4 || password.length < 4) {
         signInInfoBad.textContent = 'Please sufficiently fill in all fields';
         signInInfoBad.style.display = 'block';
         return;
     }
-    // Sign in with email and pass.
+    // Sign in with email and pass using Firebase authentication
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
         // Signed in
-        var user = userCredential.user;
-        console.log("User signed in: ", user);
         signUpClick.style.display = 'none';
         signInClick.style.display = 'none';
         signOutClick.style.display = 'flex';
@@ -247,9 +257,9 @@ signInButton.addEventListener('click', function(event) {
         signInInfoBad.style.display = 'none';
     })    
     .catch(function (error) {
-        // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
+        // Display relevant error messages if sign in was not successful
         if (errorCode === 'auth/wrong-password'){
             signInInfoBad.textContent = 'Wrong password';
             signInInfoBad.style.display = 'block';
@@ -268,7 +278,7 @@ signInButton.addEventListener('click', function(event) {
         else {
             alert(errorMessage);
         }
-        console.log(error);
+        console.log("Error signing in:", error);
     });
 });
 
@@ -277,18 +287,18 @@ signInButton.addEventListener('click', function(event) {
 signOutClick.addEventListener('click', function() {
     signOut(auth)
     .then(() => {
-        // Sign-out successful.
-        console.log('User signed out.');
+        // Sign-out successful
         signUpClick.style.display = 'flex';
         signInClick.style.display = 'flex';
         signOutClick.style.display = 'none';
     })
     .catch((error) => {
-        // An error happened.
         console.log('Error signing out:', error);
+        alert(error);
     });
 });
 
+// When a modal pops up, there is an overlay behind it that closes the modal if clicked
 overlay.addEventListener('click', function(event) {
     signUpModal.style.display = 'none';
     signInModal.style.display = 'none';
@@ -303,8 +313,9 @@ overlay.addEventListener('click', function(event) {
     signInInfoBad.style.display = 'none';
 });
 
+// Firebase Authentication listener that detects if a user is logged in or not. Fires upon startup and if the user signs in/out/up.
 auth.onAuthStateChanged((user) => {
-    if (user && !isAlreadyRun) {
+    if (user && !isAlreadyRun) { // isAlreadyRun is to stop it from firing twice upon startup
         // User is signed in.
         isAlreadyRun = true;
         signUpClick.style.display = 'none';
@@ -327,14 +338,13 @@ auth.onAuthStateChanged((user) => {
                 return response.text();
             })
             .then(data => {
-                console.log('getWatchlist success:', data);
                 watchlist = JSON.parse(data);
                 if (curTab === 'watchlistTab'){
                     populateMediaCards(watchlist);
                 }
             })
             .catch((error) => {
-                console.error('Error:', error);
+                console.error('Error fetching Watchlist:', error);
             });
         });
         // Populate the watched list from database
@@ -352,25 +362,24 @@ auth.onAuthStateChanged((user) => {
                 return response.text();
             })
             .then(data => {
-                console.log('getWatched success:', data);
                 watchedList = JSON.parse(data);
                 if (curTab === 'watchedTab'){
                     populateMediaCards(watchedList);
                 }
             })
             .catch((error) => {
-                console.error('Error:', error);
+                console.error('Error fetching Watched list:', error);
             });
         });
     } 
     else if (!user) {
         // User is signed out.
-        console.log("No user signed in");
         isAlreadyRun = false;
         signUpClick.style.display = 'flex';
         signInClick.style.display = 'flex';
         signOutClick.style.display = 'none';
         profileIcon.style.display = 'none';
+        // Reset the lists and send the user back to watchlist tab
         watchlist = [];
         watchedList = [];
         watchlistTab.click();

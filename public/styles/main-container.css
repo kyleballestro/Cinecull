@@ -102,7 +102,8 @@
 .main-content {
   flex: 1;
   width: 100%;
-  background-color: #3a3f74;
+  background: linear-gradient(to bottom, #3a3f74 0%, #313564 100%);
+  /* background-color: #3a3f74; */
   padding: 60px 60px 30px 60px;
   border-radius: 20px;
   margin: 0px 20px 60px 20px;
@@ -111,8 +112,6 @@
 .item-count {
   margin-bottom: 20px;
 }
-
-/* Main list ------------------------------ */
 
 .main-list {
   list-style: none;
@@ -178,7 +177,6 @@
 
 .media-description {
   margin: 0;
-  max-width: 900px;
 }
 
 .where-to-watch {
@@ -199,6 +197,7 @@
   margin-top: 40px;
   position: absolute;
   z-index: 1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.19);
 }
 
 .content-option {
@@ -299,24 +298,21 @@ ul.main-list li:last-child {
     margin: 0px 10px 30px 10px;
   }
 
-  .list-title {
-    font-size: 18px;
-  }
-
   .item-count {
     margin-bottom: 0px;
   }
 
   .main-list {
-    list-style: none;
-    padding: 0;
     margin-right: 20px;
+  }
+
+  .list-title {
+    font-size: 18px;
   }
 
   .media-card {
     width: 100%;
-    align-items: top;
-    padding: 20px 0px 20px 0px;
+    padding: 22px 0px 20px 0px;
   }
 
   .thumbnail {
@@ -330,13 +326,11 @@ ul.main-list li:last-child {
   }
 
   .card-content {
-    flex-grow: 1;
     margin-left: 15px;
   }
 
   .title-and-dots-row {
     align-items: flex-start;
-    justify-content: space-between;
     margin-bottom: 10px;
   }
 
@@ -351,14 +345,8 @@ ul.main-list li:last-child {
     filter: invert(100%);
   }
 
-  .type-genre-year {
-    margin-top: 0px;
-    margin-bottom: 10px;
-  }
-
-  .media-description {
-    margin: 0;
-    max-width: 900px;
+  .where-to-watch {
+    margin-bottom: 0px;
   }
 
   .content-options {
@@ -368,13 +356,11 @@ ul.main-list li:last-child {
   }
 
   .options-line {
-    width: 100%;
     margin-top: 10px;
     margin-bottom: 10px;
   }
 
   .credits {
-    display: flex;
     align-items: flex-start;
     flex-direction: column;
   }

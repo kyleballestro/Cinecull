@@ -1,10 +1,12 @@
 /*
     This file contains the functions necessary for populating the lists of media.
 */
+
 import { auth } from './firebaseConfig.js';
 import { populateMainListGenres, populateGenreCheckboxes } from './sidebar.js';
 
-// Function to create media cards for each media in the the dataset
+// Function to create media cards for each media in the the dataset. A "media card" is the block of information you see about a piece
+// of media such as the thumbnail, title, mediaType, description, etc.
 function createMediaCard(cardData) {
     const listItem = document.createElement('li');
     listItem.className = 'media-card';
@@ -27,6 +29,7 @@ function createMediaCard(cardData) {
     img.alt = 'Thumbnail';
     thumbnailDiv.appendChild(img);
 
+    // Card content div is everything to the right of the thumbnail
     const cardContentDiv = document.createElement('div');
     cardContentDiv.className = 'card-content';
 
@@ -103,10 +106,11 @@ function createMediaCard(cardData) {
         contentOptions.style.display = contentOptions.style.display === 'flex' ? 'none' : 'flex';
     });
 
-    // Add the click listeners for the content-option divs
+    // Add the click listener for each content option
     const contentOptions = listItem.querySelectorAll('.content-option');
     contentOptions.forEach(option => {
         option.addEventListener('click', function(event) {
+            // Options will be different based on which tab the user is currently in
             switch (option.id) {
                 case 'option-1':
                     var to = [];
@@ -140,16 +144,17 @@ function createMediaCard(cardData) {
                     seeStreamingOptions(cardData);
                     break;
             }
+            // Close the content options box after the user selects an option
             const contentOptions = listItem.querySelector('.content-options');
             contentOptions.style.display = contentOptions.style.display === 'flex' ? 'none' : 'flex';
         });
     });
-
     return listItem;
 }
 
 // Move a media item to one list from another. Removes it from "from" list unless it's from search results.
 function moveToList(to, from, cardData){
+    // Move the media to the to list if it's not already in there
     if (!to.some(item => item.mediaID.toString() === cardData.mediaID.toString())){
         to.push(cardData);
     }
@@ -168,7 +173,6 @@ function moveToList(to, from, cardData){
                 removeFrom = 'removeFromWatched';
             }
             // Add media to either Watchlist table or Watched table
-            console.log(addTo + " in mediaList.js");
             auth.currentUser.getIdToken(true).then(idToken => {
                 fetch('/' + addTo, {
                     method: 'POST',
@@ -185,33 +189,9 @@ function moveToList(to, from, cardData){
                     return response.text();
                 })
                 .then(data => {
-                    console.log('Success:', data);
                 })
                 .catch((error) => {
-                    console.error('Error:', error);
-                });
-            });
-            // Remove media from either Watchlist table or Watched table
-            auth.currentUser.getIdToken(true).then(idToken => {
-                fetch('/' + removeFrom, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + idToken 
-                    },
-                    body: JSON.stringify(cardData)
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok.');
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    console.log('Success:', data);
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
+                    console.error('Error adding to table:', error);
                 });
             });
         }
@@ -240,7 +220,6 @@ function moveToList(to, from, cardData){
                 return response.text();
             })
             .then(data => {
-                console.log('(mediaList.js) Success in adding to media table:', data);
                 return auth.currentUser.getIdToken(true);
             })
             // Add media to either Watchlist table or Watched table
@@ -261,16 +240,15 @@ function moveToList(to, from, cardData){
                 return response.text();
             })
             .then(data => {
-                console.log(`(mediaList.js) Success in ${addTo}:`, data);
             })
             .catch((error) => {
-                console.error('(mediaList.js) Error:', error);
+                console.error('Error:', error);
             });
         }
     }
 }
 
-// Removes the given media item from the list
+// Removes the given media item from the list and appropriate database table
 function removeFromList(list, cardData){
     for (let i = list.length - 1; i >= 0; i--){
         if (list[i].mediaID === cardData.mediaID){
@@ -279,10 +257,48 @@ function removeFromList(list, cardData){
         }
     }
     populateMediaCards(list);
+
+    // Remove media from either Watchlist table or Watched table
+    var removeFrom = '';
+    if (list === watchlist){
+        removeFrom = 'removeFromWatchlist';
+    }
+    else if (list === watchedList){
+        removeFrom = 'removeFromWatched';
+    }
+    // Delete the media from either Watchlist table or Watched table
+    auth.currentUser.getIdToken(true).then(idToken => {
+        fetch('/' + removeFrom, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + idToken 
+            },
+            body: JSON.stringify(cardData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
+            return response.text();
+        })
+        .then(data => {
+        })
+        .catch((error) => {
+            console.error('Error removing from table:', error);
+        });
+    });
 }
 
 // TMDB API call to get the streaming options from the JustWatch database (attributed). Currently filtered to just U.S. results.
 function seeStreamingOptions(cardData){
+    // Validate mediaID (should be numbers) and mediaType (should be tv show or movie)
+    if (!(/^\d+$/.test(cardData.mediaID.toString())) || (cardData.mediaType.toLowerCase() !== 'tv show' && cardData.mediaType.toLowerCase() !== 'movie')) {
+        console.error('Invalid input');
+        return;
+    }
+
+    // Fetch streaming providers using TMDB API server side
     fetch(`/streamingOptions?id=${cardData.mediaID.toString().toLowerCase()}&type=${cardData.mediaType.toString().toLowerCase()}`)
         .then(response => {
             if (!response.ok) {
@@ -293,21 +309,32 @@ function seeStreamingOptions(cardData){
         .then(data => {
             let whereAndID = 'where-to-watch-' + cardData.mediaID.toString();
             const whereToWatch = document.getElementById(whereAndID);
+            // Streaming options data found (checking by type validation of result)
             if (Array.isArray(data.flatrate)) {
                 whereToWatch.textContent = 'Available on: ' + data.flatrate.map(provider => provider.provider_name.trim()).join(', ') + ". (Source: JustWatch)";
             } 
+            // If JustWatch (used by TMDB API) doesn't have the data for the media, give the user the option to click a link to search where to watch on Google
             else {
                 whereToWatch.innerHTML = 'Data not available. Click <a style="color: white;" target="_blank" href="https://www.google.com/search?q=where+to+watch+' + 
                     encodeURIComponent(cardData.title) + '">HERE</a> to search with Google.';
             }
             whereToWatch.style.display = 'block';
         })
-        .catch(error => console.error('Error fetching data:', error));
+        .catch(error => {
+            // If JustWatch (used by TMDB API) doesn't have the data for the media or another error, give the user the option to click a link to search where to watch on Google
+            console.error('Error fetching streaming options:', error);
+            let whereAndID = 'where-to-watch-' + cardData.mediaID.toString();
+            const whereToWatch = document.getElementById(whereAndID);
+            whereToWatch.innerHTML = 'Data not available. Click <a style="color: white;" target="_blank" href="https://www.google.com/search?q=where+to+watch+' + 
+                    encodeURIComponent(cardData.title) + '">HERE</a> to search with Google.';
+            whereToWatch.style.display = 'block';
+        });
 }
 
 
 // Function to facilitate creating media cards and updating item count
 function populateMediaCards(selectedList) {
+    // Populate the available genres to filter based on the current main list
     populateMainListGenres(selectedList);
     if (fromApplyFilter === false){
         populateGenreCheckboxes();

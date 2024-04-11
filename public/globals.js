@@ -1,7 +1,12 @@
+/*
+    This file contains the global variables that should be reached by all files.
+*/
+
 var fromApplyFilter = false;
 var curTab = 'watchlistTab';
 var isAlreadyRun = false;
 
+// Movie and TV Show IDs and their respective genres
 var movieGenres = {
     28: "Action",
     12: "Adventure",
@@ -43,6 +48,7 @@ var tvGenres = {
     37: "Western"
 };
 
+// Lists that hold the user's information. Populated from database.
 var mainListGenres = [];
 var watchlist = [];
 var watchedList = [];

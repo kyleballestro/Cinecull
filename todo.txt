@@ -1,44 +1,46 @@
 NEXT UP 
 ----------------------------------------------
-- Clean up media queries
+21. Final checks for security vulnerabilities: SQL injection, API key/secrets not hidden, etc.
+22. Final performance tests (unit tests)
+- Get cinecull.org URL
+- Host with AWS
 
 
-TMDB API Stuff
+
+
+Future Additions
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+TMDB API
 -----------------------------------------------
-- Runtime and seasons?
+- Runtime and seasons
 - Add a region section to broaden streaming service results
-
-
-General Additions
------------------------------------------------
-- Add a "See More" button after filtering to recall the API with that title and media type to see 20 options
-    - Only do it if the size of the mainList < 20
-- Maybe add a Page 1 > option to go to another page of results. It would be another API call
 
 
 Misc.
 -----------------------------------------------
-- Choose a URL
-    - flickpick.org is available
-    - pickaflick.org
-    - cinecull.org
-- Go through and update HTML with better tags
-- Fully comment everything
-- If zoom in, hide filter, then zoom out filter is still hidden
+- Being able to see others' lists
+- Update with React.js
+- Add some transition to content options box maybe. Might have to change it from changing display to changing opacity.
+- Add a "See More" button after filtering to recall the API with that title and media type to see 20 options
+    - Only do it if the size of the mainList < 20
+- Maybe add a Page 1 > option to go to another page of results. It would be another API call
+- Customize checkboxes more
+- Create a favicon and logo
 
 
 Firebase Authentication
 ----------------------------------------------
+- More profile information
 
 
 Login
 ----------------------------------------------
-- Upon sign UP: add all watchlist and watched list to database for that user id
+- Reset password option
 
 
-Database for Watchlist Table and Watched Table
+Database
 -----------------------------------------------
-- Triple check against SQL injections
 - Refresh cached data:
     1. Timestamp Your Cached Data
     When you cache data from TMDB, also store the timestamp of when the data was fetched. This allows you to determine how old the cached data is.

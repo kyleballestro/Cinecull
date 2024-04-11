@@ -1,8 +1,8 @@
-1. Brainstorm what features I wanted in the application.
+1. Brainstorm what features I wanted in the application and the development methodology (Agile to emphasize iterative development and testing).
 2. Research similar applications to get ideas, things I liked/disliked, etc.
 3. Design the UI in Figma
 4. Create the UI using HTML and CSS
-5. Map out (on whiteboard) how I want the data to travel from start to finish, making notes of things I would need to add/change
+5. Map out how I want the data to travel from start to finish, making notes of things I would need to add/change
 6. Implement test data to make sure that I can populate the main list correctly
 7. Implement switching to different tabs and populating main list using the appropriate data
 8. Implement minor UI changes that are necessary upon changing tabs
@@ -17,3 +17,4 @@
 17. Planned all of the functions I would need in order to use the database server side
 18. Implemented adding data to database, then removing data from database, then getting data from database upon sign in.
 19. Updated signing up/in error messages to use red text instead of alerts.
+20. Refactored code: Updated HTML tags, condensed console logs and console errors, ensured everything is commented
