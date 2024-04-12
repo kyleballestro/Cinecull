@@ -4,6 +4,7 @@
 
 import { auth } from './firebaseConfig.js';
 import { populateMainListGenres, populateGenreCheckboxes } from './sidebar.js';
+import { showPopup } from './index.js';
 
 // Function to create media cards for each media in the the dataset. A "media card" is the block of information you see about a piece
 // of media such as the thumbnail, title, mediaType, description, etc.
@@ -103,7 +104,7 @@ function createMediaCard(cardData) {
     const dotsIcon = listItem.querySelector('.three-dots-icon');
     dotsIcon.addEventListener('click', function(event) {
         const contentOptions = listItem.querySelector('.content-options');
-        contentOptions.style.display = contentOptions.style.display === 'flex' ? 'none' : 'flex';
+        contentOptions.style.opacity = contentOptions.style.opacity === '100' ? '0' : '100';
     });
 
     // Add the click listener for each content option
@@ -131,10 +132,10 @@ function createMediaCard(cardData) {
                     break;
                 case 'option-2':
                     if (curTab === 'watchlistTab'){
-                        removeFromList(watchlist, cardData);
+                        removeFromList(watchlist, cardData, 'option-2');
                     }
                     else if (curTab === 'watchedTab'){
-                        removeFromList(watchedList, cardData);                       
+                        removeFromList(watchedList, cardData, 'option-2');                       
                     }
                     else if (curTab === 'searchTab'){
                         moveToList(watchedList, searchList, cardData);
@@ -146,7 +147,7 @@ function createMediaCard(cardData) {
             }
             // Close the content options box after the user selects an option
             const contentOptions = listItem.querySelector('.content-options');
-            contentOptions.style.display = contentOptions.style.display === 'flex' ? 'none' : 'flex';
+            contentOptions.style.opacity = contentOptions.style.opacity === '100' ? '0' : '100';
         });
     });
     return listItem;
@@ -160,17 +161,20 @@ function moveToList(to, from, cardData){
     }
     // From watchlist or watched
     if (from !== searchList){
-        removeFromList(from, cardData);
+        removeFromList(from, cardData, 'option-1');
         if (auth.currentUser){
-            var addTo = '';
-            var removeFrom = '';
+            let addTo = '';
+            let removeFrom = '';
+            let popUpMsg = '';
             if (from === watchlist){
                 addTo = 'addToWatched';
                 removeFrom = 'removeFromWatchlist';
+                popUpMsg = 'Added to watched list successfully';
             }
             else if (from === watchedList){
                 addTo = 'addToWatchlist';
                 removeFrom = 'removeFromWatched';
+                popUpMsg = 'Added to watchlist successfully';
             }
             // Add media to either Watchlist table or Watched table
             auth.currentUser.getIdToken(true).then(idToken => {
@@ -189,6 +193,7 @@ function moveToList(to, from, cardData){
                     return response.text();
                 })
                 .then(data => {
+                    showPopup(popUpMsg);
                 })
                 .catch((error) => {
                     console.error('Error adding to table:', error);
@@ -199,9 +204,16 @@ function moveToList(to, from, cardData){
     // From search
     else{
         if (auth.currentUser){
-            var addTo = '';
-            if (to === watchlist) addTo = 'addToWatchlist';
-            else if (to === watchedList) addTo = 'addToWatched';
+            let addTo = '';
+            let popUpMsg = '';
+            if (to === watchlist){
+                addTo = 'addToWatchlist';
+                popUpMsg = 'Added to watchlist successfully';
+            } 
+            else if (to === watchedList){
+                addTo = 'addToWatched';
+                popUpMsg = 'Added to watched list successfully';
+            } 
             // Add media to Media table
             auth.currentUser.getIdToken(true).then(function(idToken) {
                 return fetch('/addToMedia', {
@@ -240,6 +252,7 @@ function moveToList(to, from, cardData){
                 return response.text();
             })
             .then(data => {
+                showPopup(popUpMsg);
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -249,7 +262,7 @@ function moveToList(to, from, cardData){
 }
 
 // Removes the given media item from the list and appropriate database table
-function removeFromList(list, cardData){
+function removeFromList(list, cardData, option){
     for (let i = list.length - 1; i >= 0; i--){
         if (list[i].mediaID === cardData.mediaID){
             list.splice(i, 1);
@@ -259,12 +272,15 @@ function removeFromList(list, cardData){
     populateMediaCards(list);
 
     // Remove media from either Watchlist table or Watched table
-    var removeFrom = '';
+    let removeFrom = '';
+    let popUpMsg = '';
     if (list === watchlist){
         removeFrom = 'removeFromWatchlist';
+        popUpMsg = 'Removed from watchlist successfully';
     }
     else if (list === watchedList){
         removeFrom = 'removeFromWatched';
+        popUpMsg = 'Removed from watched list successfully';
     }
     // Delete the media from either Watchlist table or Watched table
     auth.currentUser.getIdToken(true).then(idToken => {
@@ -283,6 +299,7 @@ function removeFromList(list, cardData){
             return response.text();
         })
         .then(data => {
+            if (option === 'option-2') showPopup(popUpMsg);
         })
         .catch((error) => {
             console.error('Error removing from table:', error);

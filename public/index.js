@@ -13,6 +13,7 @@ var searchBar = document.getElementById('search-bar');
 var profileIcon = document.getElementById('profile-icon');
 var listTitle = document.getElementById('list-title');
 var overlay = document.getElementById('overlay');
+var popup = document.getElementById('popup');
 
 var signUpModal = document.getElementById('sign-up-modal');
 var signUpClick = document.getElementById('sign-up-click');
@@ -49,7 +50,9 @@ watchlistTab.addEventListener('click', function(event) {
 
     // Clear the watched tab background and set the watchlist tab background
     watchedTab.style.background = 'none';
+    watchedTab.style.boxShadow = 'none';
     this.style.backgroundColor = '#3A3F74';
+    this.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.19)';
     mainList = watchlist;
 });
 
@@ -70,7 +73,9 @@ watchedTab.addEventListener('click', function(event) {
 
         // Clear the watchlist tab background and set the watched tab background
         watchlistTab.style.background = 'none';
+        watchlistTab.style.boxShadow = 'none';
         this.style.backgroundColor = '#3A3F74';
+        this.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.19)';
         mainList = watchedList;
     }
 });
@@ -135,7 +140,9 @@ searchBar.addEventListener('keydown', function(event) {
 
             // Clear the backgrounds of watchlistTab and watchedTab, change list title
             watchedTab.style.background = 'none';
+            watchedTab.style.boxShadow = 'none';
             watchlistTab.style.background = 'none';
+            watchlistTab.style.boxShadow = 'none';
             listTitle.textContent = 'Searched: ' + this.value;
             mainList = searchList;
         }
@@ -147,6 +154,16 @@ filterIcon.addEventListener('click', function(event) {
     sidebar.style.display = sidebar.style.display === 'none' ? 'block' : 'none';
 });
 
+// Show the popup with the message for 3 seconds
+function showPopup(message){
+    popup.textContent = message;
+    popup.style.opacity = '100';
+    setTimeout(function() {
+        popup.style.opacity = '0';
+    }, 3000);
+}
+
+export { showPopup };
 
 // ------------------ Signing Up, In, and Out ------------------
 // Sign Up
@@ -194,6 +211,7 @@ signUpButton.addEventListener('click', function(event) {
         signUpPassword.value = '';
         signUpPasswordRepeat.value = '';
         signUpInfoBad.style.display = 'none';
+        showPopup('Signed up successfully');
     })
     .catch(function (error) {
         const errorCode = error.code;
@@ -255,6 +273,7 @@ signInButton.addEventListener('click', function(event) {
         signInPassword.value = '';
         signInInfoBad.textContent = '';
         signInInfoBad.style.display = 'none';
+        showPopup('Signed in successfully');
     })    
     .catch(function (error) {
         const errorCode = error.code;
@@ -291,6 +310,7 @@ signOutClick.addEventListener('click', function() {
         signUpClick.style.display = 'flex';
         signInClick.style.display = 'flex';
         signOutClick.style.display = 'none';
+        showPopup('Signed out successfully');
     })
     .catch((error) => {
         console.log('Error signing out:', error);

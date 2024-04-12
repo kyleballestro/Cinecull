@@ -19,14 +19,15 @@ TMDB API
 
 Misc.
 -----------------------------------------------
-- Being able to see others' lists
-- Update with React.js
+- Being able to see others' lists (public profiles)
+- Update main list with React.js for faster load time
 - Add some transition to content options box maybe. Might have to change it from changing display to changing opacity.
 - Add a "See More" button after filtering to recall the API with that title and media type to see 20 options
     - Only do it if the size of the mainList < 20
 - Maybe add a Page 1 > option to go to another page of results. It would be another API call
 - Customize checkboxes more
 - Create a favicon and logo
+- Add user rating when adding to watched (new media attribute)
 
 
 Firebase Authentication

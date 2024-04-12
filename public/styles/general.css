@@ -11,3 +11,26 @@ html {
 h2 {
   margin-top: 10px;
 }
+
+.popup {
+  opacity: 0;
+  text-align: center;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #363636;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  transition: opacity 0.3s;
+}
+
+@media screen and (max-width: 768px) {
+  .popup {
+    padding: 7px;
+    font-size: 12px;
+    bottom: 30px;
+  }
+}

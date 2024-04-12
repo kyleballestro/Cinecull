@@ -31,7 +31,8 @@
   background-color: #3a3f74;
   border-radius: 10px;
   padding: 10px 17px 10px 17px;
-  transition: background-color 0.4s ease;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.19);
 }
 
 .divider-line {
@@ -44,6 +45,7 @@
   border-radius: 10px;
   padding: 10px 17px 10px 17px;
   transition: background-color 0.4s ease;
+  box-shadow: 0;
 }
 
 .middle-section {
@@ -153,6 +155,7 @@
 
   .watchlist-tab {
     flex-grow: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 3px 10px rgba(0, 0, 0, 0.19);
   }
 
   .divider-line {
@@ -161,6 +164,7 @@
 
   .watched-tab {
     flex-grow: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 3px 10px rgba(0, 0, 0, 0.19);
   }
 
   /* Bottom Mobile Section */
