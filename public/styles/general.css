@@ -29,7 +29,7 @@ h2 {
 
 @media screen and (max-width: 768px) {
   .popup {
-    padding: 7px;
+    padding: 12px;
     font-size: 12px;
     bottom: 30px;
   }

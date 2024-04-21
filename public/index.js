@@ -52,7 +52,7 @@ watchlistTab.addEventListener('click', function(event) {
     watchedTab.style.background = 'none';
     watchedTab.style.boxShadow = 'none';
     this.style.backgroundColor = '#3A3F74';
-    this.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.19)';
+    this.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1), 0 3px 10px rgba(0, 0, 0, 0.19)';
     mainList = watchlist;
 });
 
@@ -75,7 +75,7 @@ watchedTab.addEventListener('click', function(event) {
         watchlistTab.style.background = 'none';
         watchlistTab.style.boxShadow = 'none';
         this.style.backgroundColor = '#3A3F74';
-        this.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.19)';
+        this.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1), 0 3px 10px rgba(0, 0, 0, 0.19)';
         mainList = watchedList;
     }
 });
@@ -84,15 +84,12 @@ watchedTab.addEventListener('click', function(event) {
 searchBar.addEventListener('keydown', function(event) {
     if (event.key === 'Enter' && this.value != '') {
         // Call TMDB API to get the multi results from searching the user's input
-        const searchedTitle = this.value;
-        const invalidChars = /[^a-zA-Z0-9 \-\'\:\!\.]/g;  
-        if (searchedTitle.match(invalidChars)) {
-            alert("Invalid characters in input.");
-        }
-        else if (searchedTitle.length > 50){
+        let searchedTitle = this.value;
+        if (searchedTitle.length > 50){
             alert("Input is too long.");
         }
         else{
+            searchedTitle = searchedTitle.replace(/[^a-zA-Z0-9 ]/g, '');
             curTab = 'searchTab';
             event.preventDefault();
 
@@ -151,7 +148,7 @@ searchBar.addEventListener('keydown', function(event) {
 
 // Toggle the sidebar visibility
 filterIcon.addEventListener('click', function(event) {
-    sidebar.style.display = sidebar.style.display === 'none' ? 'block' : 'none';
+    sidebar.style.display = window.getComputedStyle(sidebar).getPropertyValue("display") === 'none' ? 'flex' : 'none';
 });
 
 // Show the popup with the message for 3 seconds
@@ -361,6 +358,7 @@ auth.onAuthStateChanged((user) => {
                 watchlist = JSON.parse(data);
                 if (curTab === 'watchlistTab'){
                     populateMediaCards(watchlist);
+                    mainList = watchlist;
                 }
             })
             .catch((error) => {
@@ -385,6 +383,7 @@ auth.onAuthStateChanged((user) => {
                 watchedList = JSON.parse(data);
                 if (curTab === 'watchedTab'){
                     populateMediaCards(watchedList);
+                    mainList = watchedList;
                 }
             })
             .catch((error) => {

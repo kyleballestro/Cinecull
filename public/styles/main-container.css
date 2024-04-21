@@ -1,6 +1,6 @@
 .main-container {
   display: flex;
-  margin-top: 25px;
+  margin-top: 15px;
 }
 
 /* Sidebar ----------------------------------------------------------------------- */
@@ -44,10 +44,12 @@
 
 .actual-checkbox {
   cursor: pointer;
+  margin-bottom: 0px;
 }
 
 .checkbox-label {
   cursor: pointer;
+  margin-left: 10px;
 }
 
 .genre-and-plusminus {
@@ -102,19 +104,13 @@
 /* Main content ------------------------------------------------------------------ */
 
 .main-content {
-  flex: 1;
-  width: 100%;
+  flex-grow: 1;
   background: linear-gradient(to bottom, #3a3f74 0%, #313564 100%);
   /* background-color: #3a3f74; */
-  padding: 60px 60px 30px 60px;
+  padding: 50px 60px 30px 60px;
   border-radius: 20px;
   margin: 0px 20px 60px 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.19);
-}
-
-.item-count {
-  margin-bottom: 5px;
-  font-size: 20px;
 }
 
 .main-list {
@@ -126,6 +122,13 @@
   margin-bottom: 10px;
   margin-top: 0px;
   font-size: 33px;
+  max-width: 100%;
+}
+
+.item-count {
+  margin-bottom: 5px;
+  font-size: 20px;
+  max-width: 100%;
 }
 
 .media-card {
@@ -245,12 +248,13 @@ ul.main-list li:last-child {
 @media screen and (max-width: 768px) {
   .main-container {
     margin-top: 15px;
+    flex-direction: column;
   }
 
   .sidebar {
     display: none;
     font-size: 12px;
-    margin-left: 10px;
+    margin: 0px 10px 10px 10px;
     padding: 16px;
     border-radius: 15px;
   }
@@ -269,6 +273,14 @@ ul.main-list li:last-child {
     margin-bottom: 10px;
   }
 
+  .checkbox-label {
+    font-size: 14px;
+  }
+
+  .genre-text {
+    font-size: 14px;
+  }
+
   .checkbox.genre {
     margin-left: 15px;
   }
@@ -279,40 +291,39 @@ ul.main-list li:last-child {
 
   .apply-and-reset {
     margin-top: 10px;
+    font-size: 14px;
   }
 
   .filter-button {
-    padding: 7px 15px;
+    padding: 8px 20px;
     border-radius: 7px;
   }
 
   .apply-filter {
-    margin-right: 5px;
+    margin-right: 15px;
   }
 
   .reset-filter {
-    margin-left: 5px;
+    margin-left: 15px;
   }
 
   /* Main content ------------------------------------------------------------------ */
 
   .main-content {
     font-size: 12px;
-    padding: 20px 0px 20px 20px;
+    padding: 20px;
     border-radius: 15px;
     margin: 0px 10px 30px 10px;
   }
 
+  .list-title {
+    margin-top: 5px;
+    font-size: 20px;
+  }
+
   .item-count {
     margin-bottom: 0px;
-  }
-
-  .main-list {
-    margin-right: 20px;
-  }
-
-  .list-title {
-    font-size: 18px;
+    font-size: 14px;
   }
 
   .media-card {

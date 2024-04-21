@@ -53,4 +53,4 @@ var mainListGenres = [];
 var watchlist = [];
 var watchedList = [];
 var searchList = [];
-var mainList = watchlist;
+var mainList;

@@ -169,12 +169,12 @@ function moveToList(to, from, cardData){
             if (from === watchlist){
                 addTo = 'addToWatched';
                 removeFrom = 'removeFromWatchlist';
-                popUpMsg = 'Added to watched list successfully';
+                popUpMsg = 'Added to Watched list successfully';
             }
             else if (from === watchedList){
                 addTo = 'addToWatchlist';
                 removeFrom = 'removeFromWatched';
-                popUpMsg = 'Added to watchlist successfully';
+                popUpMsg = 'Added to Watchlist successfully';
             }
             // Add media to either Watchlist table or Watched table
             auth.currentUser.getIdToken(true).then(idToken => {
@@ -208,11 +208,11 @@ function moveToList(to, from, cardData){
             let popUpMsg = '';
             if (to === watchlist){
                 addTo = 'addToWatchlist';
-                popUpMsg = 'Added to watchlist successfully';
+                popUpMsg = 'Added to Watchlist successfully';
             } 
             else if (to === watchedList){
                 addTo = 'addToWatched';
-                popUpMsg = 'Added to watched list successfully';
+                popUpMsg = 'Added to Watched list successfully';
             } 
             // Add media to Media table
             auth.currentUser.getIdToken(true).then(function(idToken) {
@@ -276,11 +276,11 @@ function removeFromList(list, cardData, option){
     let popUpMsg = '';
     if (list === watchlist){
         removeFrom = 'removeFromWatchlist';
-        popUpMsg = 'Removed from watchlist successfully';
+        popUpMsg = 'Removed from Watchlist successfully';
     }
     else if (list === watchedList){
         removeFrom = 'removeFromWatched';
-        popUpMsg = 'Removed from watched list successfully';
+        popUpMsg = 'Removed from Watched list successfully';
     }
     // Delete the media from either Watchlist table or Watched table
     auth.currentUser.getIdToken(true).then(idToken => {

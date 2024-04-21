@@ -6,7 +6,7 @@
   top: 0px;
   left: 0px;
   right: 0px;
-  padding: 20px 30px 0px 30px;
+  padding: 15px 30px 0px 30px;
 }
 
 .left-section {
@@ -45,7 +45,6 @@
   border-radius: 10px;
   padding: 10px 17px 10px 17px;
   transition: background-color 0.4s ease;
-  box-shadow: 0;
 }
 
 .middle-section {
@@ -87,13 +86,28 @@
   flex-direction: row;
 }
 
+.sign-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.cinecull-logo {
+  display: none;
+}
+
 .profile-icon {
   display: none;
   flex: 1;
   align-items: center;
   justify-content: center;
-  height: 54px;
-  width: 54px;
+  /* height: 54px;
+  width: 54px; */
+  height: 42px;
+  width: 42px;
+  font-size: 14px;
+
   border-radius: 50%;
   border-style: solid;
   margin-left: 25px;
@@ -124,11 +138,16 @@
   /* Top Mobile Section */
   .right-section {
     order: 1;
-    justify-content: flex-end;
-    margin-right: 0px;
-    margin-left: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
     font-size: 14px;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
+    justify-content: space-between;
+  }
+
+  .cinecull-logo {
+    display: flex;
+    height: 26px;
   }
 
   .profile-icon {
@@ -164,7 +183,6 @@
 
   .watched-tab {
     flex-grow: 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 3px 10px rgba(0, 0, 0, 0.19);
   }
 
   /* Bottom Mobile Section */

@@ -8,6 +8,24 @@
       content="Watchlist to keep track of movies and TV shows that you want to watch and that you have watched. Search for movies to add to the lists."
     />
     <title>Cinecull</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="images/Cinecull Favicon.svg"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="images/Cinecull Favicon.svg"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="48x48"
+      href="images/Cinecull Favicon.svg"
+    />
     <link rel="stylesheet" href="styles/general.css" />
     <link rel="stylesheet" href="styles/main-container.css" />
     <link rel="stylesheet" href="styles/header.css" />
@@ -114,17 +132,24 @@
       </div>
 
       <div class="right-section">
-        <nav class="sign-up-click" id="sign-up-click">Sign Up</nav>
-        <nav class="sign-in-click" id="sign-in-click">Sign In</nav>
-        <nav class="sign-out-click" id="sign-out-click">Sign Out</nav>
-        <div class="profile-icon" id="profile-icon"></div>
+        <img
+          class="cinecull-logo"
+          src="images/Cinecull Logo.svg"
+          alt="Cinecull Logo"
+        />
+        <div class="sign-container">
+          <nav class="sign-up-click" id="sign-up-click">Sign Up</nav>
+          <nav class="sign-in-click" id="sign-in-click">Sign In</nav>
+          <nav class="sign-out-click" id="sign-out-click">Sign Out</nav>
+          <div class="profile-icon" id="profile-icon"></div>
+        </div>
       </div>
     </header>
 
     <!-- Main container content -->
     <main class="main-container">
       <!-- Sidebar content -->
-      <aside class="sidebar" id="sidebar">
+      <div class="sidebar" id="sidebar">
         <h2 class="filter-title">Filter</h2>
         <hr class="filter-line" />
         <article class="checkbox">
@@ -159,7 +184,7 @@
           <div id="apply-filter" class="filter-button apply-filter">Apply</div>
           <div id="reset-filter" class="filter-button reset-filter">Reset</div>
         </div>
-      </aside>
+      </div>
 
       <!-- Main content -->
       <section class="main-content">
